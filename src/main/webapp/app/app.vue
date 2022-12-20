@@ -1,21 +1,43 @@
 <template>
-  <div id="app">
-    <ribbon></ribbon>
-    <div id="app-header">
-      <jhi-navbar></jhi-navbar>
-    </div>
-    <div class="container-fluid">
-      <div class="card jh-card">
-        <router-view></router-view>
-      </div>
-      <b-modal id="login-page" hide-footer lazy>
-        <span data-cy="loginTitle" slot="modal-title" id="login-title" v-text="$t('login.title')">Sign in</span>
-        <login-form></login-form>
-      </b-modal>
-
-      <jhi-footer></jhi-footer>
-    </div>
-  </div>
+  <SignUpForm />
+  <nav>
+    <router-link :to="{ name: 'home' }">Home</router-link> |
+    <router-link :to="{ name: 'about' }">About</router-link>
+    <router-link :to="{ name: 'reserve' }">Reservation</router-link>
+  </nav>
+  <router-view/>
 </template>
 
-<script lang="ts" src="./app.component.ts"></script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+
+body {
+  margin: 0;
+  background: #eee;
+}
+
+nav {
+  padding: 15px;
+}
+
+nav a {
+  font-weight: bold;
+  color: #2c3e50;
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+nav a.router-link-exact-active {
+  color: white;
+  background: crimson;
+}
+</style>
