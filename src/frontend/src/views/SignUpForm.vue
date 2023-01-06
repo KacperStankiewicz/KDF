@@ -15,18 +15,18 @@
         <input type="email" v-model="email">
 
         <label>Enter a phone number:</label>
-        <input type="tel" placeholder="123-456-789" pattern="[0-9]{3}-[0-9]{3}-[0-9]{3}">
+        <input type="tel" placeholder="123 456 789" pattern="[0-9]{3} [0-9]{3} [0-9]{3}">
 
         <label>Reservation date:</label>
         <input type="date">
 
-        <label>Select start time:</label>
+        <label>Enter start time:</label>
         <input type="time">
 
-        <label>Select end time:</label>
+        <label>Enter end time:</label>
         <input type="time">
 
-        <label>Select number of people:</label>
+        <label>Enter number of people:</label>
         <input type="number" min="1" max="10">
         
         <label>Tell us what you need:</label>

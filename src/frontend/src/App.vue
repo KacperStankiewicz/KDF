@@ -2,7 +2,7 @@
   <SignUpForm />
   <nav>
     <router-link :to="{ name: 'home' }">Home</router-link> |
-    <router-link :to="{ name: 'reserve' }">Reservation</router-link>
+    <router-link :to="{ name: 'reserve' }">Online Reservation</router-link>
   </nav>
   <router-view/>
   <hello-world/>
