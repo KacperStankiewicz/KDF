@@ -38,8 +38,6 @@ body {
   background: #f1f1f1;
 }
 
-/* Create two unequal columns that floats next to each other */
-/* Left column */
 .leftcolumn {   
   max-width:800px;
   max-height: 1200px;
@@ -49,8 +47,6 @@ body {
   padding: 40px;
   border-radius: 10px;
 }
-
-/* Fake image */
 .fakeimg {
   background-color: #aaa;
   width: 100%;
