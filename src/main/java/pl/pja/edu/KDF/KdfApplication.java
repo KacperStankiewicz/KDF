@@ -18,10 +18,10 @@ public class KdfApplication {
 	private static void logApplicationStartup(){
 		log.info(
 				"""
-
+      
 						----------------------------------------------------------
 						\tApplication KDF is running! Access URLs:
-						\tLocal: \t\thttp://localhost:8080
+						\tLocal: \t\thttp://localhost:8081
 						\t"""
 		);
 	}

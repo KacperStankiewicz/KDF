@@ -5,6 +5,7 @@
     <router-link :to="{ name: 'reserve' }">Reservation</router-link>
   </nav>
   <router-view/>
+  <hello-world/>
 </template>
 
 
@@ -40,3 +41,10 @@ nav a.router-link-exact-active {
   background: crimson;
 }
 </style>
+<script>
+import HelloWorld from "@/components/HelloWorld";
+export default {
+  name: 'App',
+  components: {HelloWorld}
+}
+</script>
