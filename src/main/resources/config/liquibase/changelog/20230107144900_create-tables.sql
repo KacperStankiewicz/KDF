@@ -3,7 +3,7 @@
 
 CREATE TABLE Authority (
     id int auto_increment primary key ,
-    name varchar not null(50),
+    name varchar(50) not null,
     description varchar(255)
 );
 
@@ -26,22 +26,17 @@ CREATE TABLE Allocation (
 
 CREATE TABLE Address(
     id int auto_increment primary key,
-    street not null varchar(255),
-    number not null varchar(255),
-    city not null varchar(255),
-    country not null varchar(255),
-    postal_code not null varchar(6)
-);
-
-CREATE TABLE Category (
-    id int auto_increment primary key,
-    name varchar(255) not null
+    street varchar(255) not null,
+    number varchar(255) not null,
+    city varchar(255) not null,
+    country varchar(255) not null,
+    postal_code  varchar(6) not null
 );
 
 CREATE TABLE Object (
     id int auto_increment primary key,
     address int not null REFERENCES Address(id),
-    category int not null REFERENCES Category(id)
+    category varchar(255) not null
 );
 
 CREATE TABLE Reservation (
