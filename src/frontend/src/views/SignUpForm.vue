@@ -1,9 +1,12 @@
 <template>
   <component1></component1>
+
   <div class="reservation">
     <h1>Create reservation:</h1>
   </div>
+  
   <form @submit.prevent="handleSumbit">
+    
     <label for="fname">First name:</label>
     <input type="text" />
 
@@ -31,9 +34,6 @@
 
     <label>Enter number of people:</label>
     <input type="number" min="1" max="10" />
-
-    <label>Tell us what you need:</label>
-    <textarea rows="4" cols="50"> </textarea>
 
     <div class="terms">
       <input type="checkbox" v-model="terms" />
@@ -139,31 +139,12 @@
     position: relative;
     top: 2px;
   }
-  .pill {
-    display: inline-block;
-    margin: 20px 10px 0 0;
-    padding: 6px 12px;
-    background: #eee;
-    border-radius: 20px;
-    font-size: 12px;
-    letter-spacing: 1px;
-    font-weight: bold;
-    color: #777;
-    cursor: pointer;
-  }
   .submit {
     text-align: center;
-  }
-  .error {
-    color: #ff0062;
-    margin-top: 10px;
-    font-size: 0.8em;
-    font-weight: bold;
   }
   .reservation {
     padding: 20px;
   }
-
   .button {
     border-radius: 4px;
     background-color: crimson;
@@ -176,30 +157,5 @@
     transition: all 0.5s;
     cursor: pointer;
     margin: 5px;
-  }
-
-  .button span {
-    cursor: pointer;
-    display: inline-block;
-    position: relative;
-    transition: 0.5s;
-  }
-
-  .button span:after {
-    content: "\00bb";
-    position: absolute;
-    opacity: 0;
-    top: 0;
-    right: -20px;
-    transition: 0.5s;
-  }
-
-  .button:hover span {
-    padding-right: 25px;
-  }
-
-  .button:hover span:after {
-    opacity: 1;
-    right: 0;
   }
 </style>

@@ -58,7 +58,7 @@ export default {
 .home {
   padding: 30px;
 }
-* {
+*{
   box-sizing: border-box;
 }
 body {
