@@ -7,6 +7,11 @@ CREATE TABLE Authority (
     description varchar(255)
 );
 
+CREATE TABLE Owner (
+    id int auto_increment primary key ,
+    name varchar(255) not null
+);
+
 CREATE TABLE Person (
     id int auto_increment primary key ,
     authority_id int not null REFERENCES Authority(id),
@@ -21,7 +26,7 @@ CREATE TABLE Person (
 CREATE TABLE Allocation (
     id int auto_increment primary key,
     person_id int not null REFERENCES Person(id),
-    building_id int not null REFERENCES Object(id)
+    object_id int not null REFERENCES Object(id)
 );
 
 CREATE TABLE Address(
@@ -35,16 +40,22 @@ CREATE TABLE Address(
 
 CREATE TABLE Object (
     id int auto_increment primary key,
+    owner_id int not null REFERENCES Owner(id),
     address int not null REFERENCES Address(id),
-    category varchar(255) not null
+    category varchar(255) not null,
+    nip varchar(255) not null
 );
 
 CREATE TABLE Reservation (
     id int auto_increment primary key,
     station_id int not null REFERENCES Station(id),
     date_start TIMESTAMP not null,
-    date_end TIMESTAMP not null
-
+    date_end TIMESTAMP not null,
+    name varchar(255) not null,
+    lastname varchar(255) not null,
+    phone int(9) not null ,
+    mail varchar(255) not null ,
+    num_of_people int not null
 );
 
 CREATE TABLE Station (
