@@ -46,7 +46,7 @@
     </div>
 
     <div class="submit">
-      <button @click="addBook" class="button">Reserve</button>
+      <button class="button">Reserve</button>
     </div>
   </form>
 </template>

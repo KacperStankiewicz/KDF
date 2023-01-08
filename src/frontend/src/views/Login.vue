@@ -3,15 +3,14 @@
     <div class="login">
         <h1>Login:</h1>
     </div>
-    <form @submit.prevent="handleSumbit">
+    <form @submit.prevent="signIn">
 
 
         <label>Email:</label>
-        <input type="email" v-model="email">
+        <input type="email" id="email" v-model="loginData.email" >
    
-
         <label>Password:</label>
-        <input type="password">
+        <input type="password" id="password" v-model="loginData.password">
         <br>
         <div class="login">
             <button class="button2">Sign in</button>
@@ -21,22 +20,31 @@
 </template>
 
 <script>
-
+  import axios from "axios";
   export default {
-
+    name: "Login",
+    name: "SignIn",
+    data() {
+      return {
+        loginData: {
+          email: "",
+          password: ""
+        },
+      };
+    },
     methods: {
-    handleSumbit : async () => {
-        const  payload = {
-        token: "brsLzGForbz6bSeK8dwtZQ",
-        data: {
-            name: "nameFirst",
-            phone: "phoneHome",
-            _repeat: 300
-        }
-    }
-}
-    }
-}
+      signIn() {
+        axios
+          .post("https://jsonplaceholder.typicode.com/posts", this.loginData)
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    },
+  };
 </script>
 <style>
     form {
