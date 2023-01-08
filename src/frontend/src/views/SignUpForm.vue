@@ -5,35 +5,40 @@
     <h1>Create reservation:</h1>
   </div>
 
-  <form @submit.prevent="handleSumbit">
+  <form @submit.prevent="createPost">
     <label>First name:</label>
-    <input type="text" v-model="fname" />
+    <input type="text" id="firstname" v-model="formData.firstname" />
 
     <label>Last name:</label>
-    <input type="text" v-model="surname" />
+    <input type="text" id="lastname" v-model="formData.lastname" />
 
     <label>Email:</label>
-    <input type="email" v-model="email" />
+    <input type="email" id="email" v-model="formData.email" />
 
     <label>Enter a phone number:</label>
     <input
       type="tel"
-      v-model="phone"
+      id="phone"
+      v-model="formData.phone"
       placeholder="123 456 789"
       pattern="[0-9]{3} [0-9]{3} [0-9]{3}"
     />
 
     <label>Reservation date:</label>
-    <input type="date" v-model="date" />
+    <input type="date" />
 
     <label>Enter start time:</label>
-    <input type="time" v-model="startTime" />
+    <input type="time" id="startDate" v-model="formData.startDate" />
 
     <label>Enter end time:</label>
-    <input type="time" v-model="endTime" />
+    <input type="time" id="endDate" v-model="formData.endDate" />
 
     <label>Enter number of people:</label>
-    <input type="number" v-model="people" min="1" max="10" />
+    <input
+      type="number"
+      id="numberOfPeople"
+      v-model="formData.numberOfPeople"
+    />
 
     <div class="terms">
       <input type="checkbox" v-model="terms" />
@@ -41,31 +46,44 @@
     </div>
 
     <div class="submit">
-      <button class="button">Reserve</button>
+      <button @click="addBook" class="button">Reserve</button>
     </div>
   </form>
 </template>
 
 <script>
   import NavBar from "./NavBar.vue";
+  import axios from "axios";
   export default {
     name: "SignUpForm",
     components: {
       component1: NavBar,
     },
+    name: "CreatePost",
     data() {
       return {
-        fname: "",
-        surname: "",
-        email: "",
-        phone: "",
-        date: "",
-        startTime: "",
-        endTime: "",
-        people: "",
+        formData: {
+          firstname: "",
+          lastname: "",
+          email: "",
+          phone: "",
+          startDate: "",
+          endDate: "",
+          numberOfPeople: "",
+        },
       };
     },
     methods: {
+      createPost() {
+        axios
+          .post("https://jsonplaceholder.typicode.com/posts", this.formData)
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      },
       validateAndSubmit() {
         if (this.$refs.form.validate()) {
           this.disableSubmit = true;
@@ -78,28 +96,6 @@
             // navigate to home page after processing  data
           });
         }
-      },
-      methods: {
-        async addBook() {
-          const { data } = await axios.post("http://localhost:3000/books", {
-            fname: this.fname,
-            surname: this.surname,
-            email: this.email,
-            phone: this.phone,
-            date: this.date,
-            startTime: this.startTime,
-            endtime: this.endTime,
-            people: this.people,
-          });
-          this.fname = "";
-          this.surname = "";
-          this.email = "";
-          this.phone = "";
-          this.date = "";
-          this.startTime = "";
-          this.endTime = "";
-          this.people = "";
-        },
       },
     },
   };
