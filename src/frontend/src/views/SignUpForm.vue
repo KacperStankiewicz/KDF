@@ -4,14 +4,13 @@
   <div class="reservation">
     <h1>Create reservation:</h1>
   </div>
-  
+
   <form @submit.prevent="handleSumbit">
-    
-    <label for="fname">First name:</label>
-    <input type="text" />
+    <label>First name:</label>
+    <input type="text" v-model="fname" />
 
     <label>Last name:</label>
-    <input type="text" />
+    <input type="text" v-model="surname" />
 
     <label>Email:</label>
     <input type="email" v-model="email" />
@@ -19,21 +18,22 @@
     <label>Enter a phone number:</label>
     <input
       type="tel"
+      v-model="phone"
       placeholder="123 456 789"
       pattern="[0-9]{3} [0-9]{3} [0-9]{3}"
     />
 
     <label>Reservation date:</label>
-    <input type="date" />
+    <input type="date" v-model="date" />
 
     <label>Enter start time:</label>
-    <input type="time" />
+    <input type="time" v-model="startTime" />
 
     <label>Enter end time:</label>
-    <input type="time" />
+    <input type="time" v-model="endTime" />
 
     <label>Enter number of people:</label>
-    <input type="number" min="1" max="10" />
+    <input type="number" v-model="people" min="1" max="10" />
 
     <div class="terms">
       <input type="checkbox" v-model="terms" />
@@ -55,12 +55,14 @@
     },
     data() {
       return {
-        valid: true,
-        contactDetail: { email: "", message: "" },
+        fname: "",
+        surname: "",
         email: "",
-        password: "",
-        terms: false,
-        passwordError: "",
+        phone: "",
+        date: "",
+        startTime: "",
+        endTime: "",
+        people: "",
       };
     },
     methods: {
@@ -77,29 +79,27 @@
           });
         }
       },
-      handleSumbit: async () => {
-        const payload = {
-          token: "brsLzGForbz6bSeK8dwtZQ",
-          data: {
-            name: "nameFirst",
+      methods: {
+        async addBook() {
+          const { data } = await axios.post("http://localhost:3000/books", {
+            fname: this.fname,
+            surname: this.surname,
             email: this.email,
-            phone: "phoneHome",
-            _repeat: 300,
-          },
-        };
-        const rawResponse = await fetch("https://app.fakejson.com/q", {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        });
-        const content = await rawResponse.json();
-
-        console.log(content);
-
-        console.log("dupa");
+            phone: this.phone,
+            date: this.date,
+            startTime: this.startTime,
+            endtime: this.endTime,
+            people: this.people,
+          });
+          this.fname = "";
+          this.surname = "";
+          this.email = "";
+          this.phone = "";
+          this.date = "";
+          this.startTime = "";
+          this.endTime = "";
+          this.people = "";
+        },
       },
     },
   };
