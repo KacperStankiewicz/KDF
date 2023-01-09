@@ -1,4 +1,5 @@
 <template>
+  <component1></component1>
   <div class="row">
   <div class="text">
     <div class="card">
@@ -36,10 +37,12 @@
 
 <script>
 
-
+import NavBar from './NavBar.vue';
 export default {
   name: 'HomeView',
-  components: {}
+  components: {
+    component1: NavBar
+  }
 }
 </script>
 
@@ -55,7 +58,7 @@ export default {
 .home {
   padding: 30px;
 }
-* {
+*{
   box-sizing: border-box;
 }
 body {
