@@ -2,35 +2,35 @@
 --changeset aleksander-misztal:1
 
 CREATE TABLE Authority (
-    id int auto_increment primary key ,
+    id bigint auto_increment primary key ,
     name varchar(50) not null,
     description varchar(255)
 );
 
 CREATE TABLE Owner (
-    id int auto_increment primary key ,
-    name varchar(255) not null
+    id bigint auto_increment primary key ,
+    firstname varchar(255) not null
 );
 
 CREATE TABLE Person (
-    id int auto_increment primary key ,
-    authority_id int not null REFERENCES Authority(id),
-    object_id int not null REFERENCES Object(id),
-    name varchar(255) not null,
+    id bigint auto_increment primary key ,
+#     authority_id bigint not null REFERENCES Authority(id),
+    object_id bigint not null REFERENCES Object(id),
+    firstname varchar(255) not null,
     lastname varchar(255) not null,
-    phone int(9) not null,
+    phone varchar(15) not null,
     main varchar(255) not null,
-    address int not null
+    address_id bigint not null REFERENCES Address(id)
 );
 
 CREATE TABLE Allocation (
-    id int auto_increment primary key,
-    person_id int not null REFERENCES Person(id),
-    object_id int not null REFERENCES Object(id)
+    id bigint auto_increment primary key,
+    person_id bigint not null REFERENCES Person(id),
+    object_id bigint not null REFERENCES Object(id)
 );
 
 CREATE TABLE Address(
-    id int auto_increment primary key,
+    id bigint auto_increment primary key,
     street varchar(255) not null,
     number varchar(255) not null,
     city varchar(255) not null,
@@ -39,28 +39,32 @@ CREATE TABLE Address(
 );
 
 CREATE TABLE Object (
-    id int auto_increment primary key,
-    owner_id int not null REFERENCES Owner(id),
-    address int not null REFERENCES Address(id),
+    id bigint auto_increment primary key,
+    address_id bigint not null REFERENCES Address(id),
     category varchar(255) not null,
     nip varchar(255) not null
 );
 
+CREATE TABLE owner_objects(
+    owner_id bigint not null REFERENCES Owner(id),
+    object_id bigint not null REFERENCES Object(id)
+);
+
 CREATE TABLE Reservation (
-    id int auto_increment primary key,
-    station_id int not null REFERENCES Station(id),
-    date_start TIMESTAMP not null,
-    date_end TIMESTAMP not null,
-    name varchar(255) not null,
+    id bigint auto_increment primary key,
+    station_id bigint not null REFERENCES Station(id),
+    start_date TIMESTAMP not null,
+    end_date TIMESTAMP not null,
+    firstname varchar(255) not null,
     lastname varchar(255) not null,
-    phone int(9) not null ,
-    mail varchar(255) not null ,
+    phone varchar(15) not null ,
+    email varchar(255) not null ,
     num_of_people int not null
 );
 
 CREATE TABLE Station (
-    id int auto_increment primary key,
-    number int not null,
-    status bool not null,
-    capacity int not null
+    id bigint auto_increment primary key,
+    status varchar(50) not null,
+    capacity int not null,
+    identifier varchar(255) not null
 )

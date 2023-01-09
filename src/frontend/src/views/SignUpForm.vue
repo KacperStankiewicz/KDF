@@ -76,7 +76,7 @@
     methods: {
       createPost() {
         axios
-          .post("https://jsonplaceholder.typicode.com/posts", this.formData)
+          .post("/api/reservation", this.formData)
           .then((response) => {
             console.log(response);
           })
