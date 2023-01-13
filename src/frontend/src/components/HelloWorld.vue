@@ -1,21 +1,21 @@
 <template>
-    <h1>{{msg}}</h1>
+  <h1>{{ msg }}</h1>
 </template>
 
 <script>
 export default {
-    name: 'HelloWorld',
+  name: "HelloWorld",
   data() {
-      return {
-        msg: ''
-      }
+    return {
+      msg: "",
+    };
   },
-  mounted(){
+  mounted() {
     fetch("/api/hello")
-        .then((response) => response.text())
-        .then((data) => {
-          this.msg = data;
-        })
-  }
-}
+      .then((response) => response.text())
+      .then((data) => {
+        this.msg = data;
+      });
+  },
+};
 </script>
