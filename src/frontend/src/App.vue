@@ -1,9 +1,8 @@
 <template>
   <SignUpForm />
-  <hello-world/>
-  <router-view/>
+  <hello-world />
+  <router-view />
 </template>
-
 
 <style>
 #app {
@@ -40,7 +39,7 @@ nav a.router-link-exact-active {
 <script>
 import HelloWorld from "@/components/HelloWorld";
 export default {
-  name: 'App',
-  components: {HelloWorld}
-}
+  name: "App",
+  components: { HelloWorld },
+};
 </script>
