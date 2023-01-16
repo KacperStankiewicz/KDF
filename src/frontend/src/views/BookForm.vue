@@ -47,34 +47,46 @@
       <label>booking date:</label>
       <input type="date" id="date" v-model="formData.date" />
 
-      <label>Enter start time (opening hour: 12:00):</label>
-      <input
-        type="time"
-        id="startTime"
-        min="12:00"
-        max="23:00"
-        v-model="formData.startTime"
-      />
+      <div class="inline-input">
+        <label>Enter start time (opening hour: 12:00):</label>
+        <div class="input-time-container">
+          <input
+            type="number"
+            id="startTime"
+            min="12"
+            max="23"
+            v-model="formData.startTime"
+          />
+          <span>:00</span>
+        </div>
+      </div>
 
-      <label>Enter end time (closing hour: 23:00):</label>
-      <input
-        type="time"
-        id="endTime"
-        v-model="formData.endTime"
-        min="12:00"
-        max="23:00"
-      />
+      <div class="inline-input">
+        <label>Enter end time (closing hour: 23:00):</label>
+        <div class="input-time-container">
+          <input
+            type="number"
+            id="endTime"
+            v-model="formData.endTime"
+            min="13"
+            max="24"
+          />
+          <span>:00</span>
+        </div>
+      </div>
 
       <label>Enter number of people:</label>
       <input
         type="number"
         id="numberOfPeople"
         v-model="formData.numberOfPeople"
+        min="1"
+        max="10"
       />
 
       <div class="terms">
         <input type="checkbox" v-model="terms" />
-        <label>Accept temrs and conditions</label>
+        <label>Accept terms and conditions</label>
       </div>
 
       <div class="submit">
@@ -88,6 +100,10 @@
 import NavBar from "../components/NavBar.vue";
 import axios from "axios";
 
+const d = new Date();
+const today = d.toISOString().split("T")[0];
+console.log(today);
+
 export default {
   name: "BookForm",
   components: {
@@ -100,10 +116,10 @@ export default {
         lastname: "",
         email: "",
         phone: "",
-        date: "",
-        startTime: "",
-        endTime: "",
-        numberOfPeople: "",
+        date: today,
+        startTime: "20",
+        endTime: "22",
+        numberOfPeople: "2",
         timeRangePicker: "",
       },
       bookingError: false,
@@ -125,9 +141,13 @@ export default {
       } = this.formData;
 
       const endDate =
-        date && endTime ? new Date(`${date} ${endTime}`).toISOString() : "";
+        date && endTime
+          ? new Date(`${date} ${endTime}:00:00`).toISOString()
+          : "";
       const startDate =
-        date && startTime ? new Date(`${date} ${startTime}`).toISOString() : "";
+        date && startTime
+          ? new Date(`${date} ${startTime}:00:00`).toISOString()
+          : "";
 
       this.bookingSuccess = false;
       this.bookingError = false;
@@ -142,13 +162,10 @@ export default {
           phone,
           startDate,
         })
-        .then((response) => {
-          console.log(response);
+        .then(() => {
           this.bookingSuccess = true;
         })
-        .catch((error) => {
-          console.log(error);
-          console.log("cos sie zjebalo");
+        .catch(() => {
           this.bookingError = true;
         });
     },
@@ -206,5 +223,28 @@ input[type="checkbox"] {
 
 ::placeholder {
   opacity: 0.8;
+}
+
+.inline-input {
+  display: flex;
+  flex-direction: column;
+}
+
+.inline-input label {
+  width: 80%;
+}
+
+.inline-input .input-time-container {
+  width: 20%;
+  display: flex;
+  align-content: center;
+}
+
+.inline-input .input-time-container span {
+  padding-top: 10px;
+}
+
+.inline-input .input-time-container input {
+  width: unset;
 }
 </style>
