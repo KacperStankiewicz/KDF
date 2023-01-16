@@ -47,6 +47,8 @@ nav a.router-link-exact-active {
 }
 
 form {
+  display: flex;
+  flex-direction: column;
   width: 50%;
   max-width: 420px;
   background: white;
