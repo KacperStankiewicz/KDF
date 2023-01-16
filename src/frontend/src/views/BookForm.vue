@@ -93,6 +93,11 @@
         <button class="book-button">Book</button>
       </div>
     </form>
+    <div class="recaptcha-info">
+      This site is protected by reCAPTCHA and the Google
+      <a href="https://policies.google.com/privacy">Privacy Policy</a> and
+      <a href="https://policies.google.com/terms">Terms of Service</a> apply.
+    </div>
   </div>
 </template>
 
@@ -149,25 +154,26 @@ export default {
           ? new Date(`${date} ${startTime}:00:00`).toISOString()
           : "";
 
-      this.bookingSuccess = false;
-      this.bookingError = false;
+      this.$recaptcha("submit")
+        .then((token) => {
+          this.bookingSuccess = false;
+          this.bookingError = false;
 
-      axios
-        .post("/api/reservation", {
-          email,
-          endDate,
-          firstname,
-          lastname,
-          numberOfPeople,
-          phone,
-          startDate,
+          axios
+            .post("/api/reservation", {
+              email,
+              endDate,
+              firstname,
+              lastname,
+              numberOfPeople,
+              phone,
+              startDate,
+              token,
+            })
+            .then(() => (this.bookingSuccess = true))
+            .catch(() => (this.bookingError = true));
         })
-        .then(() => {
-          this.bookingSuccess = true;
-        })
-        .catch(() => {
-          this.bookingError = true;
-        });
+        .catch(() => (this.bookingError = true));
     },
   },
 };
@@ -246,5 +252,9 @@ input[type="checkbox"] {
 
 .inline-input .input-time-container input {
   width: unset;
+}
+
+.recaptcha-info {
+  margin-top: 10px;
 }
 </style>
