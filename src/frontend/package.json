@@ -9,6 +9,7 @@
     "format": "prettier .  --write"
   },
   "dependencies": {
+    "ant-design-vue": "^3.2.15",
     "axios": "^1.2.2",
     "core-js": "^3.8.3",
     "vue": "^3.2.13",

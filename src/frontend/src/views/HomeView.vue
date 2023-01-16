@@ -1,5 +1,5 @@
-<template>
-  <component1></component1>
+<template v-cloak>
+  <navBar />
   <div class="row">
     <div class="text">
       <div class="card">
@@ -36,8 +36,8 @@
         </p>
         <p>Come and have some fun!</p>
         <div class="submit">
-          <button @click="$router.push('reserve')" role="link" class="button1">
-            Reserve Now!
+          <button @click="$router.push('book')" role="link" class="book-button">
+            Book Now!
           </button>
         </div>
       </div>
@@ -46,11 +46,11 @@
 </template>
 
 <script>
-import NavBar from "./NavBar.vue";
+import NavBar from "../components/NavBar.vue";
 export default {
   name: "HomeView",
   components: {
-    component1: NavBar,
+    navBar: NavBar,
   },
 };
 </script>
@@ -70,11 +70,6 @@ export default {
 * {
   box-sizing: border-box;
 }
-body {
-  font-family: Arial;
-  padding: 10px;
-  background: #f1f1f1;
-}
 .text {
   max-width: 800px;
   max-height: 1200px;
@@ -83,18 +78,5 @@ body {
   text-align: left;
   padding: 40px;
   border-radius: 10px;
-}
-.button1 {
-  border-radius: 4px;
-  background-color: crimson;
-  border: none;
-  color: #ffffff;
-  text-align: center;
-  font-size: 28px;
-  padding: 20px;
-  width: 300px;
-  transition: all 0.5s;
-  cursor: pointer;
-  margin: 5px;
 }
 </style>
