@@ -36,7 +36,11 @@
         </p>
         <p>Come and have some fun!</p>
         <div class="submit">
-          <button @click="$router.push('book')" role="link" class="book-button">
+          <button
+            @click="$router.push('book')"
+            role="link"
+            class="btn-lg btn-error"
+          >
             Book Now!
           </button>
         </div>

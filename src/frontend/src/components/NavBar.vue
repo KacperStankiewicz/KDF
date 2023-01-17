@@ -4,3 +4,9 @@
     <router-link :to="{ name: 'book' }">Online Reservation</router-link>
   </nav>
 </template>
+
+<script>
+export default {
+  name: "NavBar",
+};
+</script>
