@@ -9,5 +9,8 @@ import "ant-design-vue/dist/antd.css";
 createApp(App)
   .use(router)
   .use(Antd)
-  .use(VueReCaptcha, { siteKey: "6LeEKIwjAAAAAKvm6OtnZhJYCGYfMeXqPYyN5nSn" })
+  .use(VueReCaptcha, {
+    siteKey: "6LeEKIwjAAAAAKvm6OtnZhJYCGYfMeXqPYyN5nSn",
+    loaderOptions: { autoHideBadge: true },
+  })
   .mount("#app");

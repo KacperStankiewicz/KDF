@@ -43,7 +43,6 @@ nav a.router-link-exact-active {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px 0;
 }
 
 form {
