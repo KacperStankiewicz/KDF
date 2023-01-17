@@ -70,17 +70,24 @@ label:after {
   color: red;
 }
 
-.book-button {
+.btn-lg {
+  height: 60px;
+  width: 200px;
   margin-top: 40px;
   border-radius: 4px;
-  background-color: crimson;
   border: none;
   color: #ffffff;
   text-align: center;
   font-size: 26px;
-  width: 200px;
-  height: 60px;
   transition: all 0.5s;
   cursor: pointer;
+}
+
+.btn-success {
+  background-color: green;
+}
+
+.btn-error {
+  background-color: crimson;
 }
 </style>

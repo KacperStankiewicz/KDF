@@ -1,5 +1,5 @@
 <template v-cloak>
-  <navBar />
+  <NavBar />
 
   <div class="book-title">
     <h1>Book your game:</h1>
@@ -40,7 +40,7 @@
         id="phone"
         v-model="formData.phone"
         placeholder="123456789"
-        pattern="[0-9]{3}[0-9]{3}[0-9]{3}"
+        pattern="[0-9]{9}"
         required
       />
 
@@ -90,7 +90,7 @@
       </div>
 
       <div class="submit">
-        <button class="book-button">Book</button>
+        <button class="btn-lg btn-error">Book</button>
       </div>
     </form>
     <div class="recaptcha-info">
@@ -107,12 +107,11 @@ import axios from "axios";
 
 const d = new Date();
 const today = d.toISOString().split("T")[0];
-console.log(today);
 
 export default {
   name: "BookForm",
   components: {
-    navBar: NavBar,
+    NavBar,
   },
   data() {
     return {
@@ -125,15 +124,13 @@ export default {
         startTime: "20",
         endTime: "22",
         numberOfPeople: "2",
-        timeRangePicker: "",
       },
       bookingError: false,
       bookingSuccess: false,
-      test: true,
     };
   },
   methods: {
-    submit() {
+    async submit() {
       const {
         date,
         startTime,
@@ -154,26 +151,27 @@ export default {
           ? new Date(`${date} ${startTime}:00:00`).toISOString()
           : "";
 
-      this.$recaptcha("submit")
-        .then((token) => {
-          this.bookingSuccess = false;
-          this.bookingError = false;
+      try {
+        const token = await this.$recaptcha("submit");
 
-          axios
-            .post("/api/reservation", {
-              email,
-              endDate,
-              firstname,
-              lastname,
-              numberOfPeople,
-              phone,
-              startDate,
-              token,
-            })
-            .then(() => (this.bookingSuccess = true))
-            .catch(() => (this.bookingError = true));
-        })
-        .catch(() => (this.bookingError = true));
+        this.bookingSuccess = false;
+        this.bookingError = false;
+
+        await axios.post("/api/reservation", {
+          email,
+          endDate,
+          firstname,
+          lastname,
+          numberOfPeople,
+          phone,
+          startDate,
+          token,
+        });
+
+        this.bookingSuccess = true;
+      } catch (err) {
+        this.bookingError = true;
+      }
     },
   },
 };
