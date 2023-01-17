@@ -35,6 +35,11 @@ dependencies {
 	implementation 'mysql:mysql-connector-java:8.0.31'
 	implementation 'io.springfox:springfox-swagger-ui:2.9.2'
 	implementation "org.apache.commons:commons-lang3"
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation "org.hibernate.validator:hibernate-validator"
+	implementation 'com.auth0:java-jwt:4.2.2'
+	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
 }
 
 tasks.named('test') {

@@ -19,10 +19,31 @@ public class OwnerDTO implements Serializable {
     private String lastname;
     @NotNull
     private String phone;
+
+    @NotNull
+    private String email;
     private List<AuthorityDTO> authorities;
     @NotNull
     private AddressDTO address;
     private List<ObjectDTO> objects;
+
+    private boolean activated;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public boolean isActivated() {
+        return activated;
+    }
+
+    public void setActivated(boolean activated) {
+        this.activated = activated;
+    }
 
     public Long getId() {
         return id;

@@ -1,30 +1,32 @@
 package pl.pja.edu.KDF.Domain;
 
 
-import javax.persistence.*;
-import lombok.*;
-import pl.pja.edu.KDF.Enumeration.UserAuthorities;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "authority")
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class Authority {
+public class Authority implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
+    @NotNull
+    @Size(max = 50)
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    @SequenceGenerator(name = "sequenceGenerator")
-    @Column(name = "id")
-    private Long id;
-
-    @Column(name = "name", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private UserAuthorities name;
-
-    @Column(name = "description")
-    private String description;
-
+    @Column(length = 50)
+    private String name;
 }

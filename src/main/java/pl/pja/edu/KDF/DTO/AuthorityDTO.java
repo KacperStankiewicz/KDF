@@ -1,7 +1,10 @@
 package pl.pja.edu.KDF.DTO;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import pl.pja.edu.KDF.Domain.Authority;
-import pl.pja.edu.KDF.Enumeration.UserAuthorities;
 
 import java.io.Serializable;
 
@@ -9,32 +12,11 @@ import java.io.Serializable;
  * A DTO for the {@link Authority} entity
  */
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class AuthorityDTO implements Serializable {
-    private Long id;
-    private UserAuthorities name;
-    private String description;
+    private String name;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public UserAuthorities getName() {
-        return name;
-    }
-
-    public void setName(UserAuthorities name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 }

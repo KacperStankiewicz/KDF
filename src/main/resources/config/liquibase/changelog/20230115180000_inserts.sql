@@ -2,16 +2,9 @@
 --changeset aleksander-misztal:1
 
 
-INSERT INTO KDF.Owner Values(1,"U7 Gdynia");
-INSERT INTO KDF.Owner Values(2,"U7 Sopot");
-INSERT INTO KDF.Owner Values(3,"U7 Gdansk");
-
-INSERT INTO KDF.Authority Values(1,"SuperUser", "For owner");
-INSERT INTO KDF.Authority Values(2,"User", "For Random");
-
-INSERT INTO KDF.Person Values(1,1,1,"Andrzej", "Łęcina", 111222333, "lecina.glazury@szef.de",1);
-INSERT INTO KDF.Person Values(2,2,1,"Andżela", "Szuldz", 111222333, "andza@juesej.us",1);
-INSERT INTO KDF.Person Values(3,2,1,"Brajan", "Śmietana", 111222333, "smietanka@interia.pl",1);
+INSERT INTO KDF.Person Values(1,1,"Andrzej", "Łęcina", 111222333, "lecina.glazury@szef.de",1);
+INSERT INTO KDF.Person Values(2,1,"Andżela", "Szuldz", 111222333, "andza@juesej.us",1);
+INSERT INTO KDF.Person Values(3,1,"Brajan", "Śmietana", 111222333, "smietanka@interia.pl",1);
 
 INSERT INTO KDF.Allocation Values(1,1,1);
 INSERT INTO KDF.Allocation Values(2,2,1);
@@ -21,8 +14,8 @@ INSERT INTO KDF.Address Values(1, "Wladyslawa IV", 12, "Gdynia", "Polska", "81-1
 INSERT INTO KDF.Address Values(2, "Wzgorze swietego maksymiliana", 7, "Gdynia", "Polska", "81-111");
 INSERT INTO KDF.Address Values(3, "Dworcowa", 3, "Sopot", "Polska", "82-111");
 
-INSERT INTO KDF.Object Values(1,"U7 Gdynia",1,2,"Kregle", 111222345);
-INSERT INTO KDF.Object Values(2,"U7 Sopot",1,3,"Kregle", 111222346);
+INSERT INTO KDF.Object Values(1,"U7 Gdynia",1,2,"BOWLING", 111222345);
+INSERT INTO KDF.Object Values(2,"U7 Sopot",1,3,"BOWLING", 111222346);
 
 INSERT INTO KDF.Reservation Values(1,4,"2023-01-20 12:00:00","2023-01-20 13:00:00", "Jan", "Popita", 999999999,"popitka@onet.pl",6);
 INSERT INTO KDF.Reservation Values(2,3,"2023-01-20 13:00:00","2023-01-20 15:00:00", "Jan", "Popita", 999999999,"popitka@onet.pl",6);

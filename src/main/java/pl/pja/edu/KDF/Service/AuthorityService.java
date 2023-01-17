@@ -63,7 +63,7 @@ public class AuthorityService {
         log.debug("Request to partially update Authority : {}", authorityDTO);
 
         return authorityRepository
-                .findById(authorityDTO.getId())
+                .findById(authorityDTO.getName())
                 .map(existingAuthority -> {
                     authorityMapper.partialUpdate(existingAuthority, authorityDTO);
 
@@ -92,7 +92,7 @@ public class AuthorityService {
      * @return the entity.
      */
     @Transactional(readOnly = true)
-    public Optional<AuthorityDTO> findOne(Long id) {
+    public Optional<AuthorityDTO> findOne(String id) {
         log.debug("Request to get PriceList : {}", id);
         return authorityRepository.findById(id).map(authorityMapper::toDto);
     }

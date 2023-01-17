@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+
+    <changeSet id="20230117192000" author="kacper">
+        <loadData
+                file="config/liquibase/data/owner_authorities.csv"
+                separator=";"
+                tableName="owner_authority">
+            <column name="owner_id" type="numeric"/>
+            <column type="string" name="authority"/>
+        </loadData>
+    </changeSet>
+</databaseChangeLog>
