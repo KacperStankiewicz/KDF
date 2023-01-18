@@ -50,7 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/v2/api-docs/**").permitAll()
                 .antMatchers(POST, "/api/reservations").permitAll()
                 .antMatchers("/api/**").hasAuthority("ROLE_OWNER")
-                .anyRequest().authenticated();
+                .anyRequest().authenticated().and().httpBasic();
 
         http.addFilter(customAuthenticationFilter);
         http.addFilterBefore(new CustomAuthorizationFilter(applicationProperties()), UsernamePasswordAuthenticationFilter.class);

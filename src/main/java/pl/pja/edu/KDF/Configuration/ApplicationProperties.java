@@ -7,6 +7,26 @@ public class ApplicationProperties {
 
     private String jwtSecret;
 
+    private String reCaptchaServerURL;
+
+    private String reCaptchaSecretKey;
+
+    public String getReCaptchaServerURL() {
+        return reCaptchaServerURL;
+    }
+
+    public void setReCaptchaServerURL(String reCaptchaServerURL) {
+        this.reCaptchaServerURL = reCaptchaServerURL;
+    }
+
+    public String getReCaptchaSecretKey() {
+        return reCaptchaSecretKey;
+    }
+
+    public void setReCaptchaSecretKey(String reCaptchaSecretKey) {
+        this.reCaptchaSecretKey = reCaptchaSecretKey;
+    }
+
     public String getJwtSecret() {
         return jwtSecret;
     }
