@@ -2,6 +2,7 @@ package pl.pja.edu.KDF.DTO;
 
 
 
+import pl.pja.edu.KDF.Domain.Object;
 import pl.pja.edu.KDF.Domain.Reservation;
 
 import javax.validation.constraints.Email;
@@ -9,6 +10,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * A DTO for the {@link Reservation} entity
@@ -32,6 +34,20 @@ public class ReservationDTO implements Serializable {
     @NotNull
     @Min(1)
     private Integer numberOfPeople;
+
+    @NotNull
+    private List<StationDTO> stations;
+
+    @NotNull
+    private ObjectDTO object;
+
+    public List<StationDTO> getStations() {
+        return stations;
+    }
+
+    public void setStations(List<StationDTO> stations) {
+        this.stations = stations;
+    }
 
     public Long getId() {
         return id;

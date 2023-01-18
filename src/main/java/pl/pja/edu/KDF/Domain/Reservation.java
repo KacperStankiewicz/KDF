@@ -6,6 +6,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import lombok.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Entity
 @Table(name = "reservation")
-public class Reservation {
+public class Reservation  extends AbstractAuditingEntity<Long>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
@@ -51,4 +52,12 @@ public class Reservation {
     @NotNull
     @Min(1)
     private Integer numberOfPeople;
+
+    @Column(name = "station_id", nullable = false)
+    @NotNull
+    @OneToMany
+    private List<Station> stations;
+
+    @ManyToOne
+    private Object object;
 }

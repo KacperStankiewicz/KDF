@@ -1,8 +1,10 @@
 package pl.pja.edu.KDF.Controller;
 
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import pl.pja.edu.KDF.Controller.Utils.PaginationUtil;
 import pl.pja.edu.KDF.Controller.Utils.ResponseUtil;
+import pl.pja.edu.KDF.Controller.error.HeaderUtil;
 import pl.pja.edu.KDF.DTO.ReservationDTO;
 import pl.pja.edu.KDF.Exceptions.BadRequestAlertException;
 import pl.pja.edu.KDF.Repository.ReservationRepository;
@@ -23,6 +25,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+
 
 @RequestMapping("/api")
 @RestController
@@ -63,7 +66,7 @@ public class ReservationController {
     /**
      * {@code PUT  /reservation/:id} : Updates an existing reservation.
      *
-     * @param id the id of the reservationDTO to save.
+     * @param id             the id of the reservationDTO to save.
      * @param reservationDTO the reservationDTO to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated reservationDTO,
      * or with status {@code 400 (Bad Request)} if the reservationDTO is not valid,
@@ -99,7 +102,7 @@ public class ReservationController {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of authorities in body.
      */
     @GetMapping("/reservation")
-    public ResponseEntity<List<ReservationDTO>> getAllReservations(Pageable pageable){
+    public ResponseEntity<List<ReservationDTO>> getAllReservations(Pageable pageable) {
         log.debug("REST request to get all Authorities");
         Page<ReservationDTO> page = reservationService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
@@ -117,5 +120,28 @@ public class ReservationController {
         log.debug("REST request to get reservation : {}", id);
         Optional<ReservationDTO> reservationDTO = reservationService.findOne(id);
         return ResponseUtil.wrapOrNotFound(reservationDTO);
+    }
+
+    @PutMapping("/reservation/{id}/delete")
+    public ResponseEntity<ReservationDTO> softDeleteReservation(
+            @PathVariable(value = "id", required = false) final Long id,
+            @Valid @RequestBody ReservationDTO reservationDTO) {
+        log.debug("REST request to update Reservation : {}, {}", id, reservationDTO);
+        if (reservationDTO.getId() == null) {
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+        if (!Objects.equals(id, reservationDTO.getId())) {
+            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
+        }
+
+        if (!reservationRepository.existsById(id)) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
+
+        ReservationDTO result = reservationService.softDelete(reservationDTO);
+        return ResponseEntity
+                .ok()
+                .headers(HeaderUtil.createEntityUpdateAlert("KDF", false, ENTITY_NAME, reservationDTO.getId().toString()))
+                .body(result);
     }
 }

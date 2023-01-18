@@ -98,4 +98,12 @@ public class ReservationService {
         log.debug("Request to get PriceList : {}", id);
         return reservationRepository.findById(id).map(reservationMapper::toDto);
     }
+
+    public ReservationDTO softDelete(ReservationDTO reservationDTO) {
+        log.debug("Request to soft delete PriceList : {}", reservationDTO);
+        Reservation reservation = reservationMapper.toEntity(reservationDTO);
+        reservation.setDeleted(true);
+        reservation = reservationRepository.save(reservation);
+        return reservationMapper.toDto(reservation);
+    }
 }
