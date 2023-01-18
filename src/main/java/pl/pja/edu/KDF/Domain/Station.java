@@ -33,4 +33,12 @@ public class Station {
     @NotNull
     @Min(1)
     private Integer capacity;
+
+    @Column(name = "station_number", nullable = false)
+    @NotNull
+    @Min(1)
+    private Integer StationNumber;
+
+    @ManyToOne
+    private Object object;
 }

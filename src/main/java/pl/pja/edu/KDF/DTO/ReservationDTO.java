@@ -33,6 +33,8 @@ public class ReservationDTO implements Serializable {
     @Min(1)
     private Integer numberOfPeople;
 
+    private StationDTO stationDTO;
+
     public Long getId() {
         return id;
     }
