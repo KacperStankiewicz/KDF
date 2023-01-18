@@ -1,11 +1,13 @@
 package pl.pja.edu.KDF.Controller;
 
 
+import org.springframework.http.HttpStatus;
 import pl.pja.edu.KDF.Controller.Utils.PaginationUtil;
 import pl.pja.edu.KDF.Controller.Utils.ResponseUtil;
 import pl.pja.edu.KDF.DTO.ReservationDTO;
 import pl.pja.edu.KDF.Exceptions.BadRequestAlertException;
 import pl.pja.edu.KDF.Repository.ReservationRepository;
+import pl.pja.edu.KDF.Security.reCaptchaV3.ReCaptchaHandler;
 import pl.pja.edu.KDF.Service.ReservationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,9 +37,12 @@ public class ReservationController {
 
     private final ReservationService reservationService;
 
-    public ReservationController(ReservationRepository reservationRepository, ReservationService reservationService) {
+    private final ReCaptchaHandler reCaptchaHandler;
+
+    public ReservationController(ReservationRepository reservationRepository, ReservationService reservationService, ReCaptchaHandler reCaptchaHandler) {
         this.reservationRepository = reservationRepository;
         this.reservationService = reservationService;
+        this.reCaptchaHandler = reCaptchaHandler;
     }
 
 
@@ -49,8 +54,12 @@ public class ReservationController {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/reservation")
-    public ResponseEntity<ReservationDTO> createReservation(@Valid @RequestBody ReservationDTO reservationDTO) throws URISyntaxException {
+    public ResponseEntity<ReservationDTO> createReservation(@Valid @RequestBody ReservationDTO reservationDTO,@RequestParam String reCaptchaSiteKey) throws URISyntaxException {
         log.debug("REST request to save reservation : {}", reservationDTO);
+        if(reCaptchaHandler.verify(reCaptchaSiteKey) < 0.5f){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
         if (reservationDTO.getId() != null) {
             throw new BadRequestAlertException("A new reservation cannot already have an ID", ENTITY_NAME, "idexists");
         }
