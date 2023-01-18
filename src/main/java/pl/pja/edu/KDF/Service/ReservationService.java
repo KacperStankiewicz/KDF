@@ -43,7 +43,7 @@ public class ReservationService {
     public ReservationDTO save(ReservationDTO reservationDTO) {
         log.debug("Request to save Owner : {}", reservationDTO);
         Reservation reservation = reservationMapper.toEntity(reservationDTO);
-        Station station = stationRepository.findByStatusIsAndObject_Id(StationStatus.FREE, 1L).get();
+        Station station = stationRepository.findFirstByStatusIsAndObject_Id(StationStatus.FREE, 1L).get();
         reservation.setStation(station);
 
         reservation = reservationRepository.save(reservation);

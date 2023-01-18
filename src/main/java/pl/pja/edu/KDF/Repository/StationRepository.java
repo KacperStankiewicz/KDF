@@ -9,5 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface StationRepository extends JpaRepository<Station, Long> {
-    Optional<Station> findByStatusIsAndObject_Id(StationStatus status, Long objectId);
+    Optional<Station> findFirstByStatusIsAndObject_Id(StationStatus status, Long objectId);
 }
