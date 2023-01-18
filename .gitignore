@@ -38,4 +38,6 @@ node_modules
 
 ### VS Code ###
 .vscode/
-node_modules
+src/frontend/node/node.exe
+src/frontend/node/npm
+src/frontend/node/npm.cmd

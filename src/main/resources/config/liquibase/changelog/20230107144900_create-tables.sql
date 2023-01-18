@@ -2,24 +2,25 @@
 --changeset aleksander-misztal:1
 
 CREATE TABLE IF NOT EXISTS Authority (
-    id bigint auto_increment primary key ,
-    name varchar(50) not null,
-    description varchar(255)
+    name varchar(50) not null primary key
 );
 
 CREATE TABLE IF NOT EXISTS Owner (
     id bigint auto_increment primary key ,
-    firstname varchar(255) not null
+    firstname varchar(255) not null,
+    lastname varchar(255) not null,
+    phone varchar(15),
+    address_id bigint not null references Address(id)
 );
+
 
 CREATE TABLE IF NOT EXISTS Person (
     id bigint auto_increment primary key ,
-    authority_id bigint not null REFERENCES Authority(id),
     object_id bigint not null REFERENCES Object(id),
     firstname varchar(255) not null,
     lastname varchar(255) not null,
     phone varchar(15) not null,
-    main varchar(255) not null,
+    email varchar(255) not null,
     address_id bigint not null REFERENCES Address(id)
 );
 
@@ -71,3 +72,8 @@ CREATE TABLE IF NOT EXISTS Station (
     capacity int not null,
     station_number int not null
 );
+
+CREATE TABLE IF NOT EXISTS owner_authority(
+    owner_id bigint not null references Owner (id),
+    authority varchar(50) not null references Authority (name)
+)

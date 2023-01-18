@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+
+    <changeSet id="20230117192000" author="kacper">
+
+        <sql>
+            truncate table authority;
+            drop table authority;
+        </sql>
+
+        <createTable tableName="authority">
+            <column name="name" type="varchar(50)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+        </createTable>
+
+        <loadData
+                file="config/liquibase/data/authorities.csv"
+                separator=";"
+                tableName="authority">
+            <column name="name" type="string"/>
+        </loadData>
+    </changeSet>
+</databaseChangeLog>

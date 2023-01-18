@@ -1,0 +1,2 @@
+id;login;password_hash;firstname;lastname;email;activated;address_id
+1;admin@kdf.com;$2a$10$gSAhZrxMllrbgj/kkK9UceBPpChGWJA7SYIb1Mqo.n5aNLq1/oRrC;Master;Admin;admin@kdf.com;true;1

@@ -50,12 +50,9 @@ public class AuthorityController {
     @PostMapping("/authority")
     public ResponseEntity<AuthorityDTO> createAuthority(@Valid @RequestBody AuthorityDTO authorityDTO) throws URISyntaxException {
         log.debug("REST request to save Authority : {}", authorityDTO);
-        if (authorityDTO.getId() != null) {
-            throw new BadRequestAlertException("A new authority cannot already have an ID", ENTITY_NAME, "idexists");
-        }
         AuthorityDTO result = authorityService.save(authorityDTO);
         return ResponseEntity
-                .created(new URI("/api/authority/" + result.getId()))
+                .created(new URI("/api/authority/" + result.getName()))
                 .body(result);
     }
 
@@ -70,14 +67,14 @@ public class AuthorityController {
      */
     @PutMapping("/authority/{id}")
     public ResponseEntity<AuthorityDTO> updateAuthority(
-            @PathVariable(value = "id", required = false) final Long id,
+            @PathVariable(value = "id", required = false) final String id,
             @Valid @RequestBody AuthorityDTO authorityDTO
     ) {
         log.debug("REST request to update Authority : {}, {}", id, authorityDTO);
-        if (authorityDTO.getId() == null) {
+        if (authorityDTO.getName() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        if (!Objects.equals(id, authorityDTO.getId())) {
+        if (!Objects.equals(id, authorityDTO.getName())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
@@ -112,7 +109,7 @@ public class AuthorityController {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the authorityDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/authority/{id}")
-    public ResponseEntity<AuthorityDTO> getAuthorityDTO(@PathVariable Long id) {
+    public ResponseEntity<AuthorityDTO> getAuthorityDTO(@PathVariable String id) {
         log.debug("REST request to get Authority : {}", id);
         Optional<AuthorityDTO> authorityDTO = authorityService.findOne(id);
         return ResponseUtil.wrapOrNotFound(authorityDTO);

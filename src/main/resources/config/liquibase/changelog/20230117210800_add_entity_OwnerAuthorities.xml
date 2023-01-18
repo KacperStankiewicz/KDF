@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+
+    <changeSet id="20230117210800" author="kacper">
+        <createTable tableName="owner_authority">
+            <column name="owner_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="authority" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="owner_authority" baseColumnNames="owner_id"
+                                 constraintName="owner_id_authority_fk"
+                                 referencedTableName="owner"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="owner_authority" baseColumnNames="authority"
+                                 constraintName="authority_owner_authority_fk"
+                                 referencedTableName="authority"
+                                 referencedColumnNames="name"/>
+
+    </changeSet>
+</databaseChangeLog>

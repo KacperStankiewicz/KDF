@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+
+    <changeSet id="20230117192000" author="kacper">
+        <addColumn tableName="owner">
+            <column name="login" type="varchar(50)">
+                <constraints unique="true" nullable="false" uniqueConstraintName="ux_user_login"/>
+            </column>
+            <column name="password_hash" type="varchar(60)"/>
+            <column name="email" type="varchar(191)">
+                <constraints unique="true" nullable="true" uniqueConstraintName="ux_user_email"/>
+            </column>
+            <column name="activated" type="boolean" valueBoolean="false">
+                <constraints nullable="false" />
+            </column>
+        </addColumn>
+
+        <loadData
+                file="config/liquibase/data/owner.csv"
+                separator=";"
+                tableName="owner">
+            <column name="id" type="numeric"/>
+            <column name="login" type="string"/>
+            <column name="password_hash" type="string"/>
+            <column name="firstname" type="string"/>
+            <column name="lastname" type="string"/>
+            <column name="email" type="string"/>
+            <column name="activated" type="boolean"/>
+            <column name="address_id" type="numeric"/>
+        </loadData>
+    </changeSet>
+</databaseChangeLog>

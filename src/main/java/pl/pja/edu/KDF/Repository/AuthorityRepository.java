@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import pl.pja.edu.KDF.Domain.Authority;
 
 @Repository
-public interface AuthorityRepository extends JpaRepository<Authority, Long> {
+public interface AuthorityRepository extends JpaRepository<Authority, String> {
 }

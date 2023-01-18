@@ -97,4 +97,9 @@ public class OwnerService {
         log.debug("Request to get PriceList : {}", id);
         return ownerRepository.findById(id).map(ownerMapper::toDto);
     }
+
+    @Transactional
+    public Optional<Owner> findOneWithAuthoritiesByLogin(String login){
+        return ownerRepository.findOneWithAuthoritiesByLogin(login);
+    }
 }
