@@ -158,14 +158,16 @@ export default {
         this.bookingError = false;
 
         await axios.post("/api/reservation", {
-          email,
-          endDate,
-          firstname,
-          lastname,
-          numberOfPeople,
-          phone,
-          startDate,
-          token,
+          reservationDTO: {
+            email,
+            endDate,
+            firstname,
+            lastname,
+            numberOfPeople,
+            phone,
+            startDate,
+          },
+          reCaptchaToken: token,
         });
 
         this.bookingSuccess = true;

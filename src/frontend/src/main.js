@@ -10,7 +10,7 @@ createApp(App)
   .use(router)
   .use(Antd)
   .use(VueReCaptcha, {
-    siteKey: "6LeEKIwjAAAAAKvm6OtnZhJYCGYfMeXqPYyN5nSn",
+    siteKey: "6LepxAokAAAAAMdSZuntGXU11PvGtqkBHXPzUvbc",
     loaderOptions: { autoHideBadge: true },
   })
   .mount("#app");
