@@ -1,6 +1,15 @@
 package pl.pja.edu.KDF.Controller;
 
 
+import org.springframework.http.HttpStatus;
+import pl.pja.edu.KDF.Controller.Utils.PaginationUtil;
+import pl.pja.edu.KDF.Controller.Utils.ResponseUtil;
+import pl.pja.edu.KDF.DTO.ReservationCreateDTO;
+import pl.pja.edu.KDF.DTO.ReservationDTO;
+import pl.pja.edu.KDF.Exceptions.BadRequestAlertException;
+import pl.pja.edu.KDF.Repository.ReservationRepository;
+import pl.pja.edu.KDF.Security.reCaptchaV3.ReCaptchaHandler;
+import pl.pja.edu.KDF.Service.ReservationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -37,26 +46,33 @@ public class ReservationController {
 
     private final ReservationService reservationService;
 
-    public ReservationController(ReservationRepository reservationRepository, ReservationService reservationService) {
+    private final ReCaptchaHandler reCaptchaHandler;
+
+    public ReservationController(ReservationRepository reservationRepository, ReservationService reservationService, ReCaptchaHandler reCaptchaHandler) {
         this.reservationRepository = reservationRepository;
         this.reservationService = reservationService;
+        this.reCaptchaHandler = reCaptchaHandler;
     }
 
 
     /**
      * {@code POST  /reservation} : Create a new reservation.
      *
-     * @param reservationDTO the reservationDTO to create.
+     * @param reservationCreateDTO the reservationDTO to create.
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new reservationDTO, or with status {@code 400 (Bad Request)} if the reservation has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/reservation")
-    public ResponseEntity<ReservationDTO> createReservation(@Valid @RequestBody ReservationDTO reservationDTO) throws URISyntaxException {
-        log.debug("REST request to save reservation : {}", reservationDTO);
-        if (reservationDTO.getId() != null) {
+    public ResponseEntity<ReservationDTO> createReservation(@Valid @RequestBody ReservationCreateDTO reservationCreateDTO) throws URISyntaxException {
+        log.debug("REST request to save reservation : {}", reservationCreateDTO);
+        if(reCaptchaHandler.verify(reservationCreateDTO.getReCaptchaToken()) < 0.5f){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        if (reservationCreateDTO.getReservationDTO().getId() != null) {
             throw new BadRequestAlertException("A new reservation cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        ReservationDTO result = reservationService.save(reservationDTO);
+        ReservationDTO result = reservationService.save(reservationCreateDTO.getReservationDTO());
         return ResponseEntity
                 .created(new URI("/api/reservation/" + result.getId()))
                 .body(result);
@@ -65,7 +81,7 @@ public class ReservationController {
     /**
      * {@code PUT  /reservation/:id} : Updates an existing reservation.
      *
-     * @param id             the id of the reservationDTO to save.
+     * @param id the id of the reservationDTO to save.
      * @param reservationDTO the reservationDTO to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated reservationDTO,
      * or with status {@code 400 (Bad Request)} if the reservationDTO is not valid,
@@ -101,7 +117,7 @@ public class ReservationController {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of authorities in body.
      */
     @GetMapping("/reservation")
-    public ResponseEntity<List<ReservationDTO>> getAllReservations(Pageable pageable) {
+    public ResponseEntity<List<ReservationDTO>> getAllReservations(Pageable pageable){
         log.debug("REST request to get all Authorities");
         Page<ReservationDTO> page = reservationService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
