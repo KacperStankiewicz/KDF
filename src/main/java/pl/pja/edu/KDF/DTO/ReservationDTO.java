@@ -1,10 +1,7 @@
 package pl.pja.edu.KDF.DTO;
 
 
-
-import pl.pja.edu.KDF.Domain.Object;
 import pl.pja.edu.KDF.Domain.Reservation;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -38,8 +35,6 @@ public class ReservationDTO implements Serializable {
     @NotNull
     private List<StationDTO> stations;
 
-    @NotNull
-    private ObjectDTO object;
 
     public List<StationDTO> getStations() {
         return stations;

@@ -57,7 +57,4 @@ public class Reservation  extends AbstractAuditingEntity<Long>{
     @NotNull
     @OneToMany
     private List<Station> stations;
-
-    @ManyToOne
-    private Object object;
 }

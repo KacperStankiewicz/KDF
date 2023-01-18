@@ -106,4 +106,8 @@ public class ReservationService {
         reservation = reservationRepository.save(reservation);
         return reservationMapper.toDto(reservation);
     }
+
+    public void delete(Long id) {
+        reservationRepository.deleteById(id);
+    }
 }

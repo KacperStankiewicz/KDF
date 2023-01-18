@@ -10,12 +10,12 @@ INSERT INTO KDF.Allocation Values(1,1,1);
 INSERT INTO KDF.Allocation Values(2,2,1);
 INSERT INTO KDF.Allocation Values(3,3,1);
 
-INSERT INTO KDF.Address Values(1, "Wladyslawa IV", 12, "Gdynia", "Polska", "81-121");
-INSERT INTO KDF.Address Values(2, "Wzgorze swietego maksymiliana", 7, "Gdynia", "Polska", "81-111");
-INSERT INTO KDF.Address Values(3, "Dworcowa", 3, "Sopot", "Polska", "82-111");
+INSERT INTO KDF.Address Values(1, "Wladyslawa IV","20", "Gdynia", "Polska", "81-121");
+INSERT INTO KDF.Address Values(2, "Wzgorze swietego maksymiliana","20", "Gdynia", "Polska", "81-111");
+INSERT INTO KDF.Address Values(3, "Dworcowa","20", "Sopot", "Polska", "82-111");
 
-INSERT INTO KDF.Object Values(1,"U7 Gdynia",1,2,"BOWLING", 111222345);
-INSERT INTO KDF.Object Values(2,"U7 Sopot",1,3,"BOWLING", 111222346);
+INSERT INTO KDF.Object Values(1,"U7 Gdynia",2,"BOWLING", 111222345);
+INSERT INTO KDF.Object Values(2,"U7 Sopot",3,"BOWLING", 111222346);
 
 INSERT INTO KDF.Reservation Values(1,4,"2023-01-20 12:00:00","2023-01-20 13:00:00", "Jan", "Popita", 999999999,"popitka@onet.pl",6);
 INSERT INTO KDF.Reservation Values(2,3,"2023-01-20 13:00:00","2023-01-20 15:00:00", "Jan", "Popita", 999999999,"popitka@onet.pl",6);

@@ -42,7 +42,6 @@ CREATE TABLE IF NOT EXISTS Address(
 CREATE TABLE IF NOT EXISTS Object (
     id bigint auto_increment primary key,
     name varchar(255) NOT NULL,
-    owner_id bigint not null REFERENCES Person(id),
     address_id bigint not null REFERENCES Address(id),
     category varchar(255) not null,
     nip varchar(255) not null
