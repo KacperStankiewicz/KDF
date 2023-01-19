@@ -126,7 +126,7 @@
 
 <script>
 import axios from "axios";
-import { reactive, ref, toRaw } from "vue";
+import { reactive, ref } from "vue";
 
 export default {
   name: "ReservationView",
@@ -139,7 +139,7 @@ export default {
       try {
         const response = await axios.get("/api/reservation", {
           headers: {
-            Authorization: "Bearer " + localStorage.getItem("token"),
+            Authorization: "Bearer " + localStorage.getItem("jwt"),
           },
         });
 
