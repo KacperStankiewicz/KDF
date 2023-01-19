@@ -1,4 +1,4 @@
-<template>
+<template v-cloak>
   <div class="login-container">
     <div v-if="error" class="alert-container login-alert-container">
       <a-alert
@@ -46,9 +46,11 @@ export default {
 
         const response = await axios.post("/api/login", params);
 
-        localStorage.setItem("jwt", response.jwt);
+        if (response.data.access_token) {
+          localStorage.setItem("jwt", response.data.access_token);
 
-        this.$router.push("/dashboard");
+          this.$router.push("/placeholder");
+        } else throw new Error("Could not log in");
       } catch (err) {
         console.log(err);
         if (err.response.status !== 200) {
