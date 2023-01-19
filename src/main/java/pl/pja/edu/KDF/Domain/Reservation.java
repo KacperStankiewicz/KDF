@@ -5,6 +5,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import lombok.*;
+import pl.pja.edu.KDF.DTO.StationDTO;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -53,8 +55,6 @@ public class Reservation  extends AbstractAuditingEntity<Long>{
     @Min(1)
     private Integer numberOfPeople;
 
-    @Column(name = "station_id", nullable = false)
-    @NotNull
-    @OneToMany
-    private List<Station> stations;
+    @ManyToOne
+    private Station station;
 }

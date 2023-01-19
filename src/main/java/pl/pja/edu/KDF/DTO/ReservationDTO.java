@@ -32,17 +32,7 @@ public class ReservationDTO implements Serializable {
     @Min(1)
     private Integer numberOfPeople;
 
-    @NotNull
-    private List<StationDTO> stations;
-
-
-    public List<StationDTO> getStations() {
-        return stations;
-    }
-
-    public void setStations(List<StationDTO> stations) {
-        this.stations = stations;
-    }
+    private StationDTO stationDTO;
 
     public Long getId() {
         return id;

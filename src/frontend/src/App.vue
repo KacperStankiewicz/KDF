@@ -1,10 +1,17 @@
 <template v-cloak>
-  <router-view />
+  <component :is="layout">
+    <router-view />
+  </component>
 </template>
 
 <script>
 export default {
   name: "App",
+  computed: {
+    layout() {
+      return this.$route.meta.layout || "default-layout";
+    },
+  },
 };
 </script>
 
@@ -15,11 +22,16 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  height: 100%;
 }
 
 body {
   margin: 10px 0;
   background-color: white;
+}
+
+h1 {
+  font-size: 36px;
 }
 
 nav {

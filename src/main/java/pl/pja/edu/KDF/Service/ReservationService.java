@@ -8,8 +8,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.pja.edu.KDF.DTO.ReservationDTO;
 import pl.pja.edu.KDF.Domain.Reservation;
+import pl.pja.edu.KDF.Domain.Station;
+import pl.pja.edu.KDF.Enumeration.StationStatus;
 import pl.pja.edu.KDF.Mapper.ReservationMapper;
 import pl.pja.edu.KDF.Repository.ReservationRepository;
+import pl.pja.edu.KDF.Repository.StationRepository;
 
 import java.util.Optional;
 
@@ -22,10 +25,13 @@ public class ReservationService {
 
     private final ReservationRepository reservationRepository;
 
+    private final StationRepository stationRepository;
 
-    public ReservationService(ReservationMapper reservationMapper, ReservationRepository reservationRepository) {
+
+    public ReservationService(ReservationMapper reservationMapper, ReservationRepository reservationRepository, StationRepository stationRepository) {
         this.reservationMapper = reservationMapper;
         this.reservationRepository = reservationRepository;
+        this.stationRepository = stationRepository;
     }
 
     /**
@@ -37,6 +43,9 @@ public class ReservationService {
     public ReservationDTO save(ReservationDTO reservationDTO) {
         log.debug("Request to save Owner : {}", reservationDTO);
         Reservation reservation = reservationMapper.toEntity(reservationDTO);
+        Station station = stationRepository.findFirstByStatusIsAndObject_Id(StationStatus.FREE, 1L).get();
+        reservation.setStation(station);
+
         reservation = reservationRepository.save(reservation);
         return reservationMapper.toDto(reservation);
     }
