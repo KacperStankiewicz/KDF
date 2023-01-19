@@ -3,7 +3,8 @@ import HomeView from "../views/HomeView.vue";
 import Forbidden from "../views/Forbidden.vue";
 import BookForm from "../views/BookForm.vue";
 import Login from "../views/Login.vue";
-import Dashboard from "../views/Dashboard.vue";
+import PlaceholderView from "../views/PlaceholderView.vue";
+import ReservationView from "../views/ReservationView.vue";
 
 const routes = [
   {
@@ -27,9 +28,20 @@ const routes = [
     component: Login,
   },
   {
-    path: "/dashboard",
-    name: "dashboard",
-    component: Dashboard,
+    path: "/placeholder",
+    name: "placeholder",
+    component: PlaceholderView,
+    meta: {
+      layout: "custom-layout",
+    },
+  },
+  {
+    path: "/reservation",
+    name: "reservation",
+    component: ReservationView,
+    meta: {
+      layout: "custom-layout",
+    },
   },
 ];
 
