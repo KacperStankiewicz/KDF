@@ -1,13 +1,13 @@
 <template>
   <div>
-    <a-button type="primary" @click="visible = true">Add reservation</a-button>
+    <a-button type="primary" @click="visible = true">Add worker</a-button>
     <div ref="success" v-if="success" class="alert-container">
-      <a-alert message="New reservation added" type="success" show-icon />
+      <a-alert message="New worker added" type="success" show-icon />
     </div>
 
     <div v-if="error" class="alert-container">
       <a-alert
-        message="Error occured when adding new reservation"
+        message="Error occured when adding new worker"
         description="Please try again"
         type="error"
         show-icon
@@ -15,8 +15,8 @@
     </div>
     <a-modal
       v-model:visible="visible"
-      title="Create new reservation"
-      ok-text="Create"
+      title="Add new worker"
+      ok-text="Add"
       cancel-text="Cancel"
       @ok="onOk"
     >
@@ -76,33 +76,6 @@
         >
           <a-input v-model:value="formState.phone" />
         </a-form-item>
-        <a-form-item name="date" label="Date" :rules="[{ required: true }]">
-          <a-date-picker
-            v-model:value="formState['date']"
-            value-format="YYYY-MM-DD"
-          />
-        </a-form-item>
-
-        <a-form-item name="time" label="Time" :rules="[{ required: true }]">
-          <a-time-range-picker v-model:value="formState['time']" format="HH" />
-        </a-form-item>
-
-        <a-form-item
-          name="numberOfPeople"
-          label="People No"
-          :rules="[
-            {
-              required: true,
-              message: 'Please fill in this field!',
-            },
-          ]"
-        >
-          <a-input-number
-            v-model:value="formState['numberOfPeople']"
-            :min="1"
-            :max="10"
-          />
-        </a-form-item>
       </a-form>
     </a-modal>
   </div>
@@ -137,7 +110,7 @@ export default {
       this.$router.push("/forbidden");
     } else {
       try {
-        const response = await axios.get("/api/reservation", {
+        const response = await axios.get("/api/person", {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("jwt"),
           },
@@ -147,11 +120,37 @@ export default {
       } catch (err) {
         console.log(err);
       }
+
+      try {
+        const response = await axios.get("/api/object", {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("jwt"),
+          },
+        });
+
+        this.facilities = response.data;
+      } catch (err) {
+        console.log(err);
+      }
+
+      try {
+        const response = await axios.get("/api/address", {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("jwt"),
+          },
+        });
+
+        this.addresses = response.data;
+      } catch (err) {
+        console.log(err);
+      }
     }
   },
   data() {
     return {
       reservations: [],
+      facilities: [],
+      addresses: [],
     };
   },
   methods: {
@@ -173,9 +172,6 @@ export default {
       lastname: "",
       email: "",
       phone: "",
-      date: today,
-      time: [],
-      numberOfPeople: "2",
     });
 
     const columns = [
@@ -205,21 +201,6 @@ export default {
         key: "phone",
       },
       {
-        title: "Start date",
-        dataIndex: "startDate",
-        key: "startDate",
-      },
-      {
-        title: "End date",
-        dataIndex: "endDate",
-        key: "endDate",
-      },
-      {
-        title: "People No",
-        dataIndex: "numberOfPeople",
-        key: "numberOfPeople",
-      },
-      {
         title: "Edit",
         dataIndex: "edit",
       },
@@ -230,36 +211,11 @@ export default {
     ];
 
     const onOk = () => {
+      console.log("onOk");
       formRef.value
         .validateFields()
         .then(async (values) => {
-          const {
-            firstname,
-            lastname,
-            email,
-            phone,
-            date,
-            time,
-            numberOfPeople,
-          } = values;
-          const [startTime, endTime] = time;
-
-          const startTimeFormatted = new Date(
-            JSON.parse(JSON.stringify(startTime))
-          ).toLocaleTimeString();
-          const endTimeFormatted = new Date(
-            JSON.parse(JSON.stringify(endTime))
-          ).toLocaleTimeString();
-
-          const startDate =
-            date && startTimeFormatted
-              ? new Date(`${date} ${startTimeFormatted}`).toISOString()
-              : "";
-
-          const endDate =
-            date && endTimeFormatted
-              ? new Date(`${date} ${endTimeFormatted}`).toISOString()
-              : "";
+          const { firstname, lastname, email, phone } = values;
 
           visible.value = false;
           formRef.value.resetFields();
@@ -269,15 +225,12 @@ export default {
             success.value = false;
 
             await axios.post(
-              "/api/reservation",
+              "/api/person",
               {
-                email,
-                endDate,
                 firstname,
                 lastname,
-                numberOfPeople,
+                email,
                 phone,
-                startDate,
               },
               {
                 headers: {

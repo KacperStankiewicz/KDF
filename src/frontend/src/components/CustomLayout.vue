@@ -26,10 +26,10 @@
               </span>
             </template>
             <a-menu-item key="4">U7 Gdynia</a-menu-item>
-            <a-menu-item key="5">U7 Sopot</a-menu-item>
+            <!-- <a-menu-item key="5">U7 Sopot</a-menu-item> -->
           </a-sub-menu>
         </router-link>
-        <router-link to="/placeholder" custom v-slot="{ navigate }">
+        <router-link to="/worker" custom v-slot="{ navigate }">
           <a-menu-item key="6" @click="navigate">
             <team-outlined />
             <span>Workers</span>
