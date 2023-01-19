@@ -57,9 +57,9 @@ public class ReservationController {
     @PostMapping("/reservation")
     public ResponseEntity<ReservationDTO> createReservation(@Valid @RequestBody ReservationCreateDTO reservationCreateDTO) throws URISyntaxException {
         log.debug("REST request to save reservation : {}", reservationCreateDTO);
-//        if(reCaptchaHandler.verify(reservationCreateDTO.getReCaptchaToken()) < 0.5f){
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-//        }
+       if(reCaptchaHandler.verify(reservationCreateDTO.getReCaptchaToken()) < 0.5f){
+           return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+       }
 
         if (reservationCreateDTO.getReservationDTO().getId() != null) {
             throw new BadRequestAlertException("A new reservation cannot already have an ID", ENTITY_NAME, "idexists");
