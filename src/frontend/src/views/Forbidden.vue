@@ -1,4 +1,4 @@
-<template>
+<template v-cloak>
   <a-result
     status="403"
     title="403"
