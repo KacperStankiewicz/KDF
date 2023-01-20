@@ -5,6 +5,7 @@ import BookForm from "../views/BookForm.vue";
 import Login from "../views/Login.vue";
 import PlaceholderView from "../views/PlaceholderView.vue";
 import ReservationView from "../views/ReservationView.vue";
+import AnalyticView from "../views/AnalyticView.vue";
 
 const routes = [
   {
@@ -37,8 +38,16 @@ const routes = [
   },
   {
     path: "/reservation",
-    name: "reservation",
+    name: "reservations",
     component: ReservationView,
+    meta: {
+      layout: "custom-layout",
+    },
+  },
+  {
+    path: "/analytic",
+    name: "analytics",
+    component: AnalyticView,
     meta: {
       layout: "custom-layout",
     },
