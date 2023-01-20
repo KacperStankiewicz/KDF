@@ -11,8 +11,10 @@
   "dependencies": {
     "ant-design-vue": "^3.2.15",
     "axios": "^1.2.2",
+    "chart.js": "^4.2.0",
     "core-js": "^3.8.3",
     "vue": "^3.2.13",
+    "vue-chart-3": "^3.1.8",
     "vue-recaptcha": "^2.0.3",
     "vue-recaptcha-v3": "^2.0.1",
     "vue-router": "^4.1.6"
