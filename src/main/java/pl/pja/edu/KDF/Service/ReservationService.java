@@ -43,6 +43,8 @@ public class ReservationService {
     public ReservationDTO save(ReservationDTO reservationDTO) {
         log.debug("Request to save Owner : {}", reservationDTO);
         Reservation reservation = reservationMapper.toEntity(reservationDTO);
+        // sprawdz czy na dana godzine
+
         Station station = stationRepository.findFirstByStatusIsAndObject_Id(StationStatus.FREE, 1L).get();
         reservation.setStation(station);
 
@@ -106,14 +108,6 @@ public class ReservationService {
     public Optional<ReservationDTO> findOne(Long id) {
         log.debug("Request to get PriceList : {}", id);
         return reservationRepository.findById(id).map(reservationMapper::toDto);
-    }
-
-    public ReservationDTO softDelete(ReservationDTO reservationDTO) {
-        log.debug("Request to soft delete PriceList : {}", reservationDTO);
-        Reservation reservation = reservationMapper.toEntity(reservationDTO);
-        reservation.setDeleted(true);
-        reservation = reservationRepository.save(reservation);
-        return reservationMapper.toDto(reservation);
     }
 
     public void delete(Long id) {
