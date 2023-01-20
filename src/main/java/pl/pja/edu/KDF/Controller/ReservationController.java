@@ -15,10 +15,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
+import pl.pja.edu.KDF.Controller.Utils.PaginationUtil;
+import pl.pja.edu.KDF.Controller.Utils.ResponseUtil;
+import pl.pja.edu.KDF.Controller.error.HeaderUtil;
+import pl.pja.edu.KDF.DTO.ReservationDTO;
+import pl.pja.edu.KDF.Exceptions.BadRequestAlertException;
+import pl.pja.edu.KDF.Repository.ReservationRepository;
+import pl.pja.edu.KDF.Service.ReservationService;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -26,6 +33,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+
 
 @RequestMapping("/api")
 @RestController
@@ -123,9 +131,42 @@ public class ReservationController {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the reservationDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/reservation/{id}")
-    public ResponseEntity<ReservationDTO> getreservationDTO(@PathVariable Long id) {
+    public ResponseEntity<ReservationDTO> getReservationDTO(@PathVariable Long id) {
         log.debug("REST request to get reservation : {}", id);
         Optional<ReservationDTO> reservationDTO = reservationService.findOne(id);
         return ResponseUtil.wrapOrNotFound(reservationDTO);
+    }
+
+    @PutMapping("/reservation/{id}/delete/soft")
+    public ResponseEntity<ReservationDTO> softDeleteReservation(
+            @PathVariable(value = "id", required = false) final Long id,
+            @Valid @RequestBody ReservationDTO reservationDTO) {
+        log.debug("REST request to update Reservation : {}, {}", id, reservationDTO);
+        if (reservationDTO.getId() == null) {
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+        if (!Objects.equals(id, reservationDTO.getId())) {
+            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
+        }
+
+        if (!reservationRepository.existsById(id)) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
+
+        ReservationDTO result = reservationService.softDelete(reservationDTO);
+        return ResponseEntity
+                .ok()
+                .headers(HeaderUtil.createEntityUpdateAlert("KDF", false, ENTITY_NAME, reservationDTO.getId().toString()))
+                .body(result);
+    }
+
+    @DeleteMapping("/reservation/{id}/delete")
+    public ResponseEntity<Void> deleteReservation(@PathVariable(value = "id", required = true) Long id){
+        if (!reservationRepository.existsById(id)) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
+
+        reservationService.delete(id);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

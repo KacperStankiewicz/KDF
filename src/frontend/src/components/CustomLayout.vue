@@ -5,7 +5,7 @@
         <img src="../../public/Bowling-Logo-580x387.png" />
       </div>
       <a-menu v-model:selectedKeys="selectedKeys" theme="dark" mode="inline">
-        <router-link to="/placeholder" custom v-slot="{ navigate }">
+        <router-link to="/analytic" custom v-slot="{ navigate }">
           <a-menu-item key="1" @click="navigate">
             <pie-chart-outlined />
             <span>Analytics</span>
@@ -49,7 +49,7 @@
         </div>
       </a-layout-content>
       <a-layout-footer style="text-align: center">
-        Ant Design ©2018 Created by Ant UED
+        KDF ©2023 Created by KDF Inc.
       </a-layout-footer>
     </a-layout>
   </a-layout>

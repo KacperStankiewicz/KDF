@@ -6,6 +6,7 @@ import Login from "../views/Login.vue";
 import PlaceholderView from "../views/PlaceholderView.vue";
 import ReservationView from "../views/ReservationView.vue";
 import WorkerView from "../views/WorkerView.vue";
+import AnalyticView from "../views/AnalyticView.vue";
 
 const routes = [
   {
@@ -48,6 +49,14 @@ const routes = [
     path: "/worker",
     name: "workers",
     component: WorkerView,
+    meta: {
+      layout: "custom-layout",
+    },
+  },
+  {
+    path: "/analytic",
+    name: "analytics",
+    component: AnalyticView,
     meta: {
       layout: "custom-layout",
     },

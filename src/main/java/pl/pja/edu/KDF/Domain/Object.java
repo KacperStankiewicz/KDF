@@ -1,6 +1,9 @@
 package pl.pja.edu.KDF.Domain;
 
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
 import pl.pja.edu.KDF.Enumeration.ObjectCategory;
 import lombok.*;
 
@@ -26,5 +29,19 @@ public class Object {
     @Column(name = "category", nullable = false)
     @Enumerated(EnumType.STRING)
     private ObjectCategory category;
+
+
+    @NotNull
+    @Column(name = "nip", nullable = false)
+    private String nip;
+
+    @Column(name = "name", nullable = false)
+    @NotNull
+    private String name;
+
+
+    @ManyToOne
+    private Owner owner;
+
 
 }
