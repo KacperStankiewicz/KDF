@@ -1,11 +1,22 @@
 <template>
   <div>
     <a-button type="primary" @click="visible = true">Add worker</a-button>
-    <div ref="success" v-if="success" class="alert-container">
+    <div ref="addSuccess" v-if="addSuccess" class="alert-container">
       <a-alert message="New worker added" type="success" show-icon />
     </div>
+    <div ref="deleteSuccess" v-if="deleteSuccess" class="alert-container">
+      <a-alert message="The worker deleted" type="success" show-icon />
+    </div>
 
-    <div v-if="error" class="alert-container">
+    <div v-if="deleteError" class="alert-container">
+      <a-alert
+        message="Error occured when deleteing the worker"
+        description="Please try again"
+        type="error"
+        show-icon
+      />
+    </div>
+    <div v-if="addError" class="alert-container">
       <a-alert
         message="Error occured when adding new worker"
         description="Please try again"
@@ -76,17 +87,75 @@
         >
           <a-input v-model:value="formState.phone" />
         </a-form-item>
+        <a-form-item
+          name="city"
+          label="city"
+          :rules="[
+            {
+              required: true,
+              message: 'Please fill in this field!',
+            },
+          ]"
+        >
+          <a-input v-model:value="formState.city" />
+        </a-form-item>
+        <a-form-item
+          name="country"
+          label="country"
+          :rules="[
+            {
+              required: true,
+              message: 'Please fill in this field!',
+            },
+          ]"
+        >
+          <a-input v-model:value="formState.country" />
+        </a-form-item>
+        <a-form-item
+          name="street"
+          label="street"
+          :rules="[
+            {
+              required: true,
+              message: 'Please fill in this field!',
+            },
+          ]"
+        >
+          <a-input v-model:value="formState.street" />
+        </a-form-item>
+        <a-form-item
+          name="number"
+          label="number"
+          :rules="[
+            {
+              required: true,
+              message: 'Please fill in this field!',
+            },
+          ]"
+        >
+          <a-input v-model:value="formState.number" />
+        </a-form-item>
+        <a-form-item
+          name="postalCode"
+          label="postal code"
+          :rules="[
+            {
+              pattern: '[0-9]{2}-[0-9]{3}',
+              required: true,
+              message: 'Please fill in this field!',
+            },
+          ]"
+        >
+          <a-input v-model:value="formState.postalCode" />
+        </a-form-item>
       </a-form>
     </a-modal>
   </div>
-  <a-table :dataSource="reservations" :columns="columns">
-    <template #bodyCell="{ column, text, record }">
-      <template v-if="column.dataIndex === 'edit'">
-        <a disabled="true">Edit</a>
-      </template>
-      <template v-else-if="column.dataIndex === 'delete'">
+  <a-table :dataSource="workers" :columns="columns">
+    <template #bodyCell="{ column, record }">
+      <template v-if="column.dataIndex === 'delete'">
         <a-popconfirm
-          v-if="reservations.length"
+          v-if="workers.length"
           title="Sure to delete?"
           @confirm="onDelete(record.id)"
         >
@@ -102,7 +171,7 @@ import axios from "axios";
 import { reactive, ref } from "vue";
 
 export default {
-  name: "ReservationView",
+  name: "WorkerView",
   async created() {
     const jwt = localStorage.getItem("jwt");
 
@@ -116,62 +185,61 @@ export default {
           },
         });
 
-        this.reservations = response.data;
-      } catch (err) {
-        console.log(err);
-      }
-
-      try {
-        const response = await axios.get("/api/object", {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("jwt"),
-          },
-        });
-
-        this.facilities = response.data;
-      } catch (err) {
-        console.log(err);
-      }
-
-      try {
-        const response = await axios.get("/api/address", {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("jwt"),
-          },
-        });
-
-        this.addresses = response.data;
+        this.workers = response.data;
       } catch (err) {
         console.log(err);
       }
     }
   },
-  data() {
-    return {
-      reservations: [],
-      facilities: [],
-      addresses: [],
-    };
-  },
   methods: {
-    onDelete(id) {
-      console.log("usuwanie rezerwacji z id: ", id);
+    async onDelete(id) {
+      try {
+        this.deleteError = false;
+        this.deleteSuccess = false;
+        this.addError = false;
+        this.addSuccess = false;
+
+        await axios.delete(`/api/person/${id}`, {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("jwt"),
+          },
+        });
+
+        const response = await axios.get("/api/person", {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("jwt"),
+          },
+        });
+
+        this.workers = response.data;
+
+        this.deleteSuccess = true;
+      } catch (err) {
+        this.deleteError = true;
+      }
     },
-    onEdit() {},
   },
   setup() {
     const d = new Date();
     const today = d.toISOString().split("T")[0];
 
-    const error = ref(false);
-    const success = ref(false);
+    const addError = ref(false);
+    const deleteError = ref(false);
+    const addSuccess = ref(false);
+    const deleteSuccess = ref(false);
     const formRef = ref();
     const visible = ref(false);
+    let workers = ref([]);
     const formState = reactive({
       firstname: "",
       lastname: "",
       email: "",
       phone: "",
+      city: "",
+      country: "",
+      number: "",
+      postalCode: "",
+      street: "",
     });
 
     const columns = [
@@ -211,18 +279,29 @@ export default {
     ];
 
     const onOk = () => {
-      console.log("onOk");
       formRef.value
         .validateFields()
         .then(async (values) => {
-          const { firstname, lastname, email, phone } = values;
+          const {
+            firstname,
+            lastname,
+            email,
+            phone,
+            city,
+            country,
+            number,
+            postalCode,
+            street,
+          } = values;
 
           visible.value = false;
           formRef.value.resetFields();
 
           try {
-            error.value = false;
-            success.value = false;
+            addError.value = false;
+            addSuccess.value = false;
+            deleteError.value = false;
+            deleteSuccess.value = false;
 
             await axios.post(
               "/api/person",
@@ -231,17 +310,34 @@ export default {
                 lastname,
                 email,
                 phone,
+                objectId: 1,
+                address: {
+                  city,
+                  country,
+                  number,
+                  postalCode,
+                  street,
+                },
               },
               {
                 headers: {
-                  Authorization: "Bearer " + localStorage.getItem("jwt"),
+                  Authorization: `Bearer ${localStorage.getItem("jwt")}`,
                 },
               }
             );
 
-            success.value = true;
+            const response = await axios.get("/api/person", {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("jwt"),
+              },
+            });
+
+            workers = response.data;
+
+            addSuccess.value = true;
           } catch (err) {
-            error.value = true;
+            console.error(err);
+            addError.value = true;
           }
         })
         .catch((info) => {
@@ -250,8 +346,11 @@ export default {
     };
 
     return {
-      success,
-      error,
+      workers,
+      addSuccess,
+      deleteSuccess,
+      addError,
+      deleteError,
       today,
       formState,
       formRef,
@@ -298,5 +397,50 @@ export default {
 
 .collection-create-form_last-form-item {
   margin-bottom: 0;
+}
+
+body
+  > div:nth-child(6)
+  > div
+  > div.ant-modal-wrap
+  > div
+  > div.ant-modal-content
+  > div.ant-modal-body
+  > form {
+  width: 70% !important;
+}
+
+.ant-modal-root
+  .ant-modal
+  .ant-modal-content
+  .ant-modal-body
+  .ant-form
+  .ant-form-vertical {
+  width: 70%;
+}
+
+body
+  > div:nth-child(6)
+  > div
+  > div.ant-modal-wrap
+  > div
+  > div.ant-modal-content
+  > div.ant-modal-body
+  > form
+  > div:nth-child(1) {
+  margin-bottom: 10px;
+}
+
+body
+  > div:nth-child(6)
+  > div
+  > div.ant-modal-wrap
+  > div
+  > div.ant-modal-content
+  > div.ant-modal-body
+  > form
+  > div:nth-child(1)
+  > div.ant-col.ant-form-item-label {
+  padding-bottom: 0;
 }
 </style>
