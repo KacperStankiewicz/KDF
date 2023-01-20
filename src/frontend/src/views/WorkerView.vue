@@ -223,13 +223,14 @@ export default {
     const d = new Date();
     const today = d.toISOString().split("T")[0];
 
+    let workers = ref([]);
+
     const addError = ref(false);
     const deleteError = ref(false);
     const addSuccess = ref(false);
     const deleteSuccess = ref(false);
     const formRef = ref();
     const visible = ref(false);
-    let workers = ref([]);
     const formState = reactive({
       firstname: "",
       lastname: "",
@@ -267,10 +268,6 @@ export default {
         title: "Phone",
         dataIndex: "phone",
         key: "phone",
-      },
-      {
-        title: "Edit",
-        dataIndex: "edit",
       },
       {
         title: "Delete",
@@ -326,13 +323,7 @@ export default {
               }
             );
 
-            const response = await axios.get("/api/person", {
-              headers: {
-                Authorization: "Bearer " + localStorage.getItem("jwt"),
-              },
-            });
-
-            workers = response.data;
+            window.location.href = "http://localhost:3000/worker";
 
             addSuccess.value = true;
           } catch (err) {
