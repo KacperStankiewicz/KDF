@@ -42,14 +42,14 @@ CREATE TABLE IF NOT EXISTS address(
 CREATE TABLE IF NOT EXISTS object (
     id bigint auto_increment primary key,
     name varchar(255) NOT NULL,
-    owner_id bigint not null REFERENCES person(id),
+    owner_id bigint not null REFERENCES owner(id),
     address_id bigint not null REFERENCES address(id),
     category varchar(255) not null,
     nip varchar(255) not null
 );
 
 CREATE TABLE IF NOT EXISTS owner_objects(
-    owner_id bigint not null REFERENCES person(id),
+    owner_id bigint not null REFERENCES owner(id),
     object_id bigint not null REFERENCES object(id)
 );
 

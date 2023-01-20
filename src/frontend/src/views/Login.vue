@@ -49,7 +49,7 @@ export default {
         if (response.data.access_token) {
           localStorage.setItem("jwt", response.data.access_token);
 
-          this.$router.push("/placeholder");
+          this.$router.push("/analytic");
         } else throw new Error("Could not log in");
       } catch (err) {
         console.log(err);

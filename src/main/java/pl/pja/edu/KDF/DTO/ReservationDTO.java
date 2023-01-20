@@ -1,14 +1,13 @@
 package pl.pja.edu.KDF.DTO;
 
 
-
 import pl.pja.edu.KDF.Domain.Reservation;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * A DTO for the {@link Reservation} entity
