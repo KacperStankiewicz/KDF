@@ -1,19 +1,21 @@
 package pl.pja.edu.KDF.Controller;
 
-import pl.pja.edu.KDF.Controller.Utils.PaginationUtil;
-import pl.pja.edu.KDF.Controller.Utils.ResponseUtil;
-import pl.pja.edu.KDF.DTO.PersonDTO;
-import pl.pja.edu.KDF.Exceptions.BadRequestAlertException;
-import pl.pja.edu.KDF.Repository.PersonRepository;
-import pl.pja.edu.KDF.Service.PersonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import pl.pja.edu.KDF.Controller.Utils.PaginationUtil;
+import pl.pja.edu.KDF.Controller.Utils.ResponseUtil;
+import pl.pja.edu.KDF.DTO.PersonCreateDTO;
+import pl.pja.edu.KDF.DTO.PersonDTO;
+import pl.pja.edu.KDF.Exceptions.BadRequestAlertException;
+import pl.pja.edu.KDF.Repository.PersonRepository;
+import pl.pja.edu.KDF.Service.PersonService;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -43,17 +45,15 @@ public class PersonController {
     /**
      * {@code POST  /person} : Create a new person.
      *
-     * @param personDTO the personDTO to create.
+     * @param personCreateDTO the personCreateDTO to create.
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new personDTO, or with status {@code 400 (Bad Request)} if the person has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/person")
-    public ResponseEntity<PersonDTO> createPerson(@Valid @RequestBody PersonDTO personDTO) throws URISyntaxException {
-        log.debug("REST request to save person : {}", personDTO);
-        if (personDTO.getId() != null) {
-            throw new BadRequestAlertException("A new person cannot already have an ID", ENTITY_NAME, "idexists");
-        }
-        PersonDTO result = personService.save(personDTO);
+    public ResponseEntity<PersonDTO> createPerson(@Valid @RequestBody PersonCreateDTO personCreateDTO) throws URISyntaxException {
+        log.debug("REST request to save person : {}", personCreateDTO);
+
+        PersonDTO result = personService.save(personCreateDTO);
         return ResponseEntity
                 .created(new URI("/api/person/" + result.getId()))
                 .body(result);
@@ -116,5 +116,15 @@ public class PersonController {
         log.debug("REST request to get person : {}", id);
         Optional<PersonDTO> personDTO = personService.findOne(id);
         return ResponseUtil.wrapOrNotFound(personDTO);
+    }
+
+    @DeleteMapping("/person/{id}")
+    public ResponseEntity<Void> deletePerson(@PathVariable Long id){
+        try {
+            personService.delete(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).build();
+        }
     }
 }

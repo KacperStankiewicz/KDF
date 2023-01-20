@@ -1,40 +1,37 @@
 package pl.pja.edu.KDF.DTO;
 
 
+import lombok.*;
 import pl.pja.edu.KDF.Enumeration.ObjectCategory;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
  * A DTO for the {@link Object} entity
  */
 
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ObjectDTO implements Serializable {
+
     private Long id;
+
+    @NotNull
     private AddressDTO address;
+
+    @NotNull
     private ObjectCategory category;
 
-    public Long getId() {
-        return id;
-    }
+    @NotNull
+    private String nip;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @NotNull
+    private String name;
 
-    public AddressDTO getAddress() {
-        return address;
-    }
-
-    public void setAddress(AddressDTO address) {
-        this.address = address;
-    }
-
-    public ObjectCategory getCategory() {
-        return category;
-    }
-
-    public void setCategory(ObjectCategory category) {
-        this.category = category;
-    }
+    @NotNull
+    private OwnerDTO owner;
 }
