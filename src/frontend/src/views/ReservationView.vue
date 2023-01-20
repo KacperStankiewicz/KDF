@@ -157,16 +157,13 @@ export default {
       }
     }
   },
-  data() {
-    return {
-      reservations: [],
-    };
-  },
   methods: {
     async onDelete(id) {
       try {
-        deleteError = false;
-        deleteSuccess = false;
+        this.addError = false;
+        this.addSuccess = false;
+        this.deleteError = false;
+        this.deleteSuccess = false;
 
         await axios.delete(`/api/reservation/${id}/delete`, {
           headers: {
@@ -182,16 +179,17 @@ export default {
 
         this.reservations = response.data;
 
-        deleteSuccess = true;
+        this.deleteSuccess = true;
       } catch (err) {
-        deleteError = true;
+        this.deleteError = true;
       }
     },
-    onEdit() {},
   },
   setup() {
     const d = new Date();
     const today = d.toISOString().split("T")[0];
+
+    let reservations = ref([]);
 
     const addError = ref(false);
     const deleteError = ref(false);
@@ -294,11 +292,13 @@ export default {
           try {
             addError.value = false;
             addSuccess.value = false;
+            deleteError.value = false;
+            deleteSuccess.value = false;
 
             await axios.post(
-              "/api/reservation",
+              "/api/worker/reservation",
               {
-                eservationDTO: {
+                reservationDTO: {
                   email,
                   endDate,
                   firstname,
@@ -307,7 +307,6 @@ export default {
                   phone,
                   startDate,
                 },
-                reCaptchaToken: token,
               },
               {
                 headers: {
@@ -315,6 +314,8 @@ export default {
                 },
               }
             );
+
+            window.location.href = "http://localhost:3000/worker";
 
             addSuccess.value = true;
           } catch (err) {
@@ -328,6 +329,7 @@ export default {
     };
 
     return {
+      reservations,
       addSuccess,
       addError,
       deleteSuccess,
