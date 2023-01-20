@@ -6,9 +6,6 @@ import javax.validation.constraints.NotNull;
 
 import pl.pja.edu.KDF.Enumeration.ObjectCategory;
 import lombok.*;
-import pl.pja.edu.KDF.Enumeration.ObjectCategory;
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 
 @Entity
@@ -18,7 +15,7 @@ import javax.validation.constraints.NotNull;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Object  extends AbstractAuditingEntity<Long> {
+public class Object {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")

@@ -1,13 +1,24 @@
 <template>
   <div>
     <a-button type="primary" @click="visible = true">Add reservation</a-button>
-    <div ref="success" v-if="success" class="alert-container">
+    <div ref="addSuccess" v-if="addSuccess" class="alert-container">
       <a-alert message="New reservation added" type="success" show-icon />
     </div>
+    <div ref="deleteSuccess" v-if="deleteSuccess" class="alert-container">
+      <a-alert message="Reservation deleted" type="success" show-icon />
+    </div>
 
-    <div v-if="error" class="alert-container">
+    <div v-if="addError" class="alert-container">
       <a-alert
         message="Error occured when adding new reservation"
+        description="Please try again"
+        type="error"
+        show-icon
+      />
+    </div>
+    <div v-if="deleteError" class="alert-container">
+      <a-alert
+        message="Error occured when deleting the reservation"
         description="Please try again"
         type="error"
         show-icon
@@ -107,11 +118,8 @@
     </a-modal>
   </div>
   <a-table :dataSource="reservations" :columns="columns">
-    <template #bodyCell="{ column, text, record }">
-      <template v-if="column.dataIndex === 'edit'">
-        <a>Edit</a>
-      </template>
-      <template v-else-if="column.dataIndex === 'delete'">
+    <template #bodyCell="{ column, record }">
+      <template v-if="column.dataIndex === 'delete'">
         <a-popconfirm
           v-if="reservations.length"
           title="Sure to delete?"
@@ -155,8 +163,29 @@ export default {
     };
   },
   methods: {
-    onDelete(id) {
-      console.log("usuwanie rezerwacji z id: ", id);
+    async onDelete(id) {
+      try {
+        deleteError = false;
+        deleteSuccess = false;
+
+        await axios.delete(`/api/reservation/${id}/delete`, {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("jwt"),
+          },
+        });
+
+        const response = await axios.get("/api/reservation", {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("jwt"),
+          },
+        });
+
+        this.reservations = response.data;
+
+        deleteSuccess = true;
+      } catch (err) {
+        deleteError = true;
+      }
     },
     onEdit() {},
   },
@@ -164,8 +193,10 @@ export default {
     const d = new Date();
     const today = d.toISOString().split("T")[0];
 
-    const error = ref(false);
-    const success = ref(false);
+    const addError = ref(false);
+    const deleteError = ref(false);
+    const addSuccess = ref(false);
+    const deleteSuccess = ref(false);
     const formRef = ref();
     const visible = ref(false);
     const formState = reactive({
@@ -220,10 +251,6 @@ export default {
         key: "numberOfPeople",
       },
       {
-        title: "Edit",
-        dataIndex: "edit",
-      },
-      {
         title: "Delete",
         dataIndex: "delete",
       },
@@ -265,30 +292,34 @@ export default {
           formRef.value.resetFields();
 
           try {
-            error.value = false;
-            success.value = false;
+            addError.value = false;
+            addSuccess.value = false;
 
             await axios.post(
               "/api/reservation",
               {
-                email,
-                endDate,
-                firstname,
-                lastname,
-                numberOfPeople,
-                phone,
-                startDate,
+                eservationDTO: {
+                  email,
+                  endDate,
+                  firstname,
+                  lastname,
+                  numberOfPeople,
+                  phone,
+                  startDate,
+                },
+                reCaptchaToken: token,
               },
               {
                 headers: {
-                  Authorization: "Bearer " + localStorage.getItem("jwt"),
+                  Authorization: `Bearer ${localStorage.getItem("jwt")}`,
                 },
               }
             );
 
-            success.value = true;
+            addSuccess.value = true;
           } catch (err) {
-            error.value = true;
+            console.log(err);
+            addError.value = true;
           }
         })
         .catch((info) => {
@@ -297,8 +328,10 @@ export default {
     };
 
     return {
-      success,
-      error,
+      addSuccess,
+      addError,
+      deleteSuccess,
+      deleteError,
       today,
       formState,
       formRef,
