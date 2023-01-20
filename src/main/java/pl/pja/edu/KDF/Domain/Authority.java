@@ -20,9 +20,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Authority implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class Authority{
 
     @NotNull
     @Size(max = 50)

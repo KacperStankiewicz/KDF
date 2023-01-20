@@ -1,8 +1,9 @@
 package pl.pja.edu.KDF.Domain;
 
-import javax.persistence.*;
-import pl.pja.edu.KDF.Enumeration.ObjectCategory;
 import lombok.*;
+import pl.pja.edu.KDF.Enumeration.ObjectCategory;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 
 @Entity
@@ -12,7 +13,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Object {
+public class Object  extends AbstractAuditingEntity<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
@@ -27,4 +28,11 @@ public class Object {
     @Enumerated(EnumType.STRING)
     private ObjectCategory category;
 
+    @Column(name = "name", nullable = false)
+    @NotNull
+    private String name;
+
+    @Column(name = "nip", nullable = false)
+    @NotNull
+    private String nip;
 }

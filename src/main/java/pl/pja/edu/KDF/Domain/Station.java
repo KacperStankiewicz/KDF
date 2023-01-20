@@ -13,7 +13,7 @@ import pl.pja.edu.KDF.Enumeration.StationStatus;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Station {
+public class Station  extends AbstractAuditingEntity<Long>{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator")

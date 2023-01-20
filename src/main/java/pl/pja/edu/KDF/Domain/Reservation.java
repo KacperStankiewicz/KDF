@@ -8,6 +8,7 @@ import lombok.*;
 import pl.pja.edu.KDF.DTO.StationDTO;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -16,7 +17,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Entity
 @Table(name = "reservation")
-public class Reservation {
+public class Reservation  extends AbstractAuditingEntity<Long>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
