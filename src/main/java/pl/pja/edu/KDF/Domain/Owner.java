@@ -57,6 +57,7 @@ public class Owner extends AbstractAuditingEntity<Long>{
 
     @NotNull
     @Column(nullable = false)
+    @Builder.Default
     private boolean activated = true;
 
     @Size(max = 15)
@@ -78,7 +79,4 @@ public class Owner extends AbstractAuditingEntity<Long>{
     @JoinColumn(name = "address_id", referencedColumnName = "id", nullable = false)
     @NotNull
     private Address address;
-
-    @OneToMany
-    private List<Object> objects;
 }

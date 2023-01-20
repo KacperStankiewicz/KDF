@@ -11,5 +11,10 @@
     <include file="config/liquibase/changelog/20230117204300_alter_table_owner.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20230115180000_inserts.sql" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20230117210900_upload_entity_OwnerAuthorities.xml" relativeToChangelogFile="false"/>
+
+    <include file="config/liquibase/changelog/20230120150700_add_foreign_key_constraints.xml" relativeToChangelogFile="false"/>
+
+
     <include file="config/liquibase/changelog/20230118191600_alter_entities_add_auditEntity.xml" relativeToChangelogFile="false"/>
+
 </databaseChangeLog>

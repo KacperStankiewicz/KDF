@@ -1,5 +1,10 @@
 package pl.pja.edu.KDF.Domain;
 
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
+import pl.pja.edu.KDF.Enumeration.ObjectCategory;
 import lombok.*;
 import pl.pja.edu.KDF.Enumeration.ObjectCategory;
 import javax.persistence.*;
@@ -28,11 +33,18 @@ public class Object  extends AbstractAuditingEntity<Long> {
     @Enumerated(EnumType.STRING)
     private ObjectCategory category;
 
+
+    @NotNull
+    @Column(name = "nip", nullable = false)
+    private String nip;
+
     @Column(name = "name", nullable = false)
     @NotNull
     private String name;
 
-    @Column(name = "nip", nullable = false)
-    @NotNull
-    private String nip;
+
+    @ManyToOne
+    private Owner owner;
+
+
 }

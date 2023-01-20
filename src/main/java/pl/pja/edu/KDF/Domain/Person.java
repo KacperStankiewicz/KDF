@@ -1,6 +1,7 @@
 package pl.pja.edu.KDF.Domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import lombok.*;
 import java.util.List;
@@ -42,4 +43,9 @@ public class Person  extends AbstractAuditingEntity<Long>{
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     @NotNull
     private Address address;
+
+    @NotNull
+    @Email
+    @Column(name = "email", nullable = false)
+    private String email;
 }

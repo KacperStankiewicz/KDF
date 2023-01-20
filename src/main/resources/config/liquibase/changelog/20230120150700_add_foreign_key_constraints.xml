@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+
+    <changeSet id="20230117192000" author="kacper">
+        <addForeignKeyConstraint baseTableName="object" baseColumnNames="owner_id" constraintName="owner_object_fk"
+                                 referencedTableName="owner"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="object" baseColumnNames="address_id" constraintName="address_object_fk"
+                                 referencedTableName="address"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+</databaseChangeLog>
